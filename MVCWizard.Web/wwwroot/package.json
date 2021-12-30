@@ -1,0 +1,9 @@
+{
+  "name": "wwwroot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "bs-stepper": "^1.7.0"
+  }
+}

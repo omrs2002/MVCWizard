@@ -16,7 +16,6 @@ namespace MVCWizard.Api.Data
 
         public EmployeeDBContext(DbContextOptions<EmployeeDBContext> options) : base(options)
         {
-            
 
         }
 
