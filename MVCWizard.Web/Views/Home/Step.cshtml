@@ -1,11 +1,14 @@
-﻿@{
+﻿@model EmployeeDto;
+
+@{
     ViewData["Title"] = "Steps";
 }
 
 <h1>@ViewData["Title"]</h1>
+<form asp-action="Create" asp-controller="Home" data-ajax="true" data-ajax-method="POST"
+      data-ajax-confirm="Are you sure?"
+      data-ajax-mode="replace" data-ajax-update="#List" id="CreateForm" enctype="multipart/form-data">
 
-<div class="row">
-    < class="col-md-12 mt-5">
     <h2>Linear stepper</h2>
     <div id="stepper1" class="bs-stepper">
         <div class="bs-stepper-header">
@@ -32,63 +35,149 @@
         </div>
         <div class="bs-stepper-content">
             <div id="test-l-1" class="content">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label asp-for="FullName" class="control-label"></label>
+                            <input asp-for="FullName" class="form-control" />
+                            <span asp-validation-for="FullName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label asp-for="Gender" class="control-label"></label>
+                            <select asp-for="Gender" class="form-control" asp-items="ViewBag.GenderList"></select>
+                            <span asp-validation-for="Gender" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label asp-for="DateOfBirth" class="control-label"></label>
+                            <input asp-for="DateOfBirth" asp-format="{0:dd/mm/yyyy}" class="form-control" />
+                            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
-                <button class="btn btn-primary" >Next</button>
+                  <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input type="button" class="btn btn-primary" value="Next" />
+                    </div>
+                </div>
+            </div>
             </div>
             <div id="test-l-2" class="content">
-                <p class="text-center">test 2</p>
-                
-                <button class="btn btn-warning" >Previous</button>
-                <button class="btn btn-primary" >Next</button>
-
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label asp-for="Salary" class="control-label"></label>
+                            <input asp-for="Salary" class="form-control" />
+                            <span asp-validation-for="Salary" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label asp-for="DateOfStart" class="control-label"></label>
+                            <input asp-for="DateOfStart" asp-format="{0:dd/mm/yyyy}" class="form-control" />
+                            <span asp-validation-for="DateOfStart" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+               <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input type="button" class="btn btn-warning" value="Previous" />
+                        <input type="button" class="btn btn-primary" value="Next" />
+                    </div>
+                </div>
             </div>
-            <div id="test-l-3" class="content">
-                <p class="text-center">test 3</p>
-                <button class="btn btn-warning" >Previous</button>
+            </div>
+          
+        </div>
+        <div id="test-l-3" class="content">
+            <div class="row">
+                   <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Dept" class="control-label"></label>
+                        <input asp-for="Dept" class="form-control" />
+                        <span asp-validation-for="Dept" class="text-danger"></span>
+                    </div>
+                </div>
+
+              
+             
+            </div>
+               <div class="row">
+                    <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Bio" class="control-label"></label>
+                        <textarea  asp-for="Bio" type="text" class="form-control" style="width:100%" ></textarea>
+                        <span asp-validation-for="Bio" class="text-danger"></span>
+                    </div>
+                </div>
+
+               </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input type="button" class="btn btn-warning" value="Previous" />
+                        <input type="submit" class="btn btn-success" value="Submit" />
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
+</form>
 @section Scripts {
 <script>
 
-      $(document).ready(function () {
+     $(document).ready(function () {
 
-          debugger;
-        var stepper1Node = document.querySelector('#stepper1');
-        var stepper1 = new Stepper(document.querySelector('#stepper1'));
+        $(".submit").click(function () {
+            return false;
+        })
 
-        var btnNextList = [].slice.call(document.querySelectorAll('.btn-primary'));
+       //debugger;
+       var stepper1Node = document.querySelector('#stepper1');
+       var stepper1 = new Stepper(document.querySelector('#stepper1'));
 
-        btnNextList.forEach(function (btn) {
-            btn.addEventListener('click', function () {
-            stepper1.next();
-            })
-        });
+       var btnNextList = [].slice.call(document.querySelectorAll('.btn-primary'));
 
-        var btnprev = [].slice.call(document.querySelectorAll('.btn-warning'));
+       btnNextList.forEach(function (btn) {
+           btn.addEventListener('click', function () {
 
-        btnprev.forEach(function (btnp) {
-            btnp.addEventListener('click', function () {
-            stepper1.previous();
-            })
-        });
+            $.validator.unobtrusive.parse("#CreateForm");
+            //debugger;
+            if ($("#CreateForm").valid() && $("#CreateForm").data('validator').pendingRequest == 0)
+            {
+                stepper1.next();
+            }
+
+           })
+       });
+
+       var btnprev = [].slice.call(document.querySelectorAll('.btn-warning'));
+
+       btnprev.forEach(function (btnp) {
+           btnp.addEventListener('click', function () {
+           stepper1.previous();
+           })
+       });
+
+
+    stepper1Node.addEventListener('show.bs-stepper', function (event) {
+         //console.log('show.bs-stepper', event)
+         console.log('show.bs-stepper', "show.bs-stepper fired!");
+       });
+       stepper1Node.addEventListener('shown.bs-stepper', function (event) {
+         //console.log('shown.bs-stepper', event)
+         console.log('shown.bs-stepper', "show.bs-stepper fired!");
+       });
+
+     });
+</script>
+    }
 
 
 
-     stepper1Node.addEventListener('show.bs-stepper', function (event) {
-          //console.log('show.bs-stepper', event)
-          console.log('show.bs-stepper', "show.bs-stepper fired!");
-        });
-        stepper1Node.addEventListener('shown.bs-stepper', function (event) {
-          //console.log('shown.bs-stepper', event)
-          console.log('shown.bs-stepper', "show.bs-stepper fired!");
-        });
-
-      });
-    </script>
- }
