@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MVCWizard.Api.Data.Models;
+using MVCWizard.Data.Models;
 
 namespace MVCWizard.Api.Data
 {
