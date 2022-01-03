@@ -1,7 +1,20 @@
+using Microsoft.Net.Http.Headers;
+using System.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+//builder.Services.AddHttpClient();
+
+ConfigurationManager configuration = builder.Configuration;
+
+builder.Services.AddHttpClient("EmpApi", client =>
+{
+    client.BaseAddress = new Uri(configuration.GetSection("EmpApi:Url").Value);
+    client.DefaultRequestHeaders.Clear();
+    client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
+});
 
 var app = builder.Build();
 
@@ -16,6 +29,8 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
+
+app.UseCors();
 
 app.UseRouting();
 

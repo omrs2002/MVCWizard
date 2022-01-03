@@ -13,7 +13,7 @@ namespace MVCWizard.Data.Models
         public string FullName { get; set; }
 
         [Required]
-        public DateOnly DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
         [Required]
         public string Gender { get; set; }
@@ -27,7 +27,7 @@ namespace MVCWizard.Data.Models
 
 
         [Required]
-        public DateOnly DateOfStart { get; set; }
+        public DateTime  DateOfStart { get; set; }
 
 
         [Required]

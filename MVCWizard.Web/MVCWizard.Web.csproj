@@ -27,4 +27,8 @@
     <None Include="wwwroot\node_modules\bs-stepper\dist\js\bs-stepper.min.js" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MVCWizard.Data\MVCWizard.Data.csproj" />
+  </ItemGroup>
+
 </Project>
