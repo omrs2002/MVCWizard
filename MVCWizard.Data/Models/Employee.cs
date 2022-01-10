@@ -16,7 +16,7 @@ namespace MVCWizard.Data.Models
         public DateTime DateOfBirth { get; set; }
 
         [Required]
-        public string Gender { get; set; }
+        public int Gender { get; set; }
 
 
         [Required]
@@ -34,6 +34,6 @@ namespace MVCWizard.Data.Models
         public string Bio { get; set; }
 
         [Required]
-        public bool CompletionStatus { get; set; } = false;
+        public int CompletionStatus { get; set; } = 0;
     }
 }

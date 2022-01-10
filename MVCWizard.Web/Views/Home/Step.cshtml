@@ -2,9 +2,17 @@
 
 @{
     ViewData["Title"] = "Steps";
+    List<EmployeeDto>? emps = ViewBag.Employees as List<EmployeeDto>;
 }
 
 <h1>@ViewData["Title"]</h1>
+@if(emps is not null)
+{
+    @foreach(EmployeeDto emp in emps)
+    {
+        <b>@emp.FullName</b>
+    }
+}
 <form asp-action="Create" asp-controller="Home" data-ajax="true" data-ajax-method="POST"
       data-ajax-confirm="Are you sure?"
       data-ajax-mode="replace" data-ajax-update="#List" id="CreateForm" enctype="multipart/form-data">

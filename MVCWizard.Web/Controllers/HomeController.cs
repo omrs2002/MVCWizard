@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MVCWizard.Data.Enums;
+using MVCWizard.Web.Application.Services;
 using MVCWizard.Web.Models;
 using System.Diagnostics;
 using System.Text.Json;
@@ -10,18 +11,16 @@ namespace MVCWizard.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly HttpClient _httpClient;
+        private readonly IEmployeeService _employeeService;
 
 
         public HomeController(
-            HttpClient httpClient,
-
+            IEmployeeService employeeService,
             ILogger<HomeController> logger
             )
         {
-            _httpClient = httpClient;
+            _employeeService = employeeService; 
             _logger = logger;
-            _httpClient.BaseAddress = new Uri("https://localhost:7094/");
         }
 
         public IActionResult Index()
@@ -31,25 +30,11 @@ namespace MVCWizard.Web.Controllers
         }
         public async Task<IActionResult> Step()
         {
-
-            var response = _httpClient.GetAsync("api/Employee").Result;
-
-            string responseString = await response.Content.ReadAsStringAsync();
-            if (response != null)
-            {
-                if (responseString != null && !string.IsNullOrEmpty(responseString))
-                {
-                    List<EmployeeDto> AllEmps
-                        = JsonSerializer
-                        .Deserialize<List<EmployeeDto>>(responseString, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-                }
-            }
+            ViewBag.Employees =await _employeeService.GetAllEmployees();
             IList<object> gender_list = new List<object>()
             {new  { ID="1",Name="Male"}, new { ID = "2", Name = "Female" } };
-
             //var gender_list =  new SelectList(Enum.GetValues(typeof(Gender)));
-            ViewBag.GenderList = new SelectList(gender_list);
-
+            ViewBag.GenderList = new SelectList(gender_list,"ID","Name");
             return View();
         }
 

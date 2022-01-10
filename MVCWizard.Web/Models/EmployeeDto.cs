@@ -11,7 +11,7 @@ namespace MVCWizard.Web.Models
 
 
         [Required(ErrorMessage = "Name required")]
-        public string FullName { get; set; }
+        public string? FullName { get; set; }
 
 
         [Required(ErrorMessage = "Date Of Birth required")]
@@ -20,11 +20,11 @@ namespace MVCWizard.Web.Models
         public DateTime DateOfBirth { get; set; }
 
         [Required(ErrorMessage = "Gender required")]
-        public string Gender { get; set; }
+        public int Gender { get; set; }
 
 
         [Required(ErrorMessage = "Dept required")]
-        public string Dept { get; set; }
+        public string? Dept { get; set; }
 
         [Required(ErrorMessage = "Salary required")]
         public double Salary { get; set; }
@@ -37,9 +37,9 @@ namespace MVCWizard.Web.Models
 
 
         [Required(ErrorMessage = "Bio required")]
-        public string Bio { get; set; }
+        public string? Bio { get; set; }
 
         [Required]
-        public bool CompletionStatus { get; set; } = false;
+        public int CompletionStatus { get; set; }
     }
 }
