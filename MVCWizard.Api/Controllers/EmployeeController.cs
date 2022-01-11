@@ -8,7 +8,7 @@ namespace MVCWizard.Api.Controllers
     public class EmployeeController : ControllerBase
     {
         [HttpGet]
-        public IEnumerable<Employee> Get()
+        public async Task<IEnumerable<Employee>> Get()
         {
 
             return new List<Employee>() 
@@ -31,24 +31,34 @@ namespace MVCWizard.Api.Controllers
 
         // GET api/<EmployeeController>/5
         [HttpGet("{id}")]
-        public ActionResult<Employee> Get(int id)
+        public async Task<ActionResult<Employee>> Get(int id)
         {
-            return new Employee { Id = 1, FullName = "Omar" };
+            return new Employee
+            {
+                Id = 1,
+                FullName = "Omar",
+                Bio = "My CV",
+                CompletionStatus = 1,
+                DateOfBirth = DateTime.Now.AddYears(-38),
+                DateOfStart = DateTime.Now,
+                Dept = "Account",
+                Gender = 1,
+                Salary = 4000
+            };
         }
 
         // POST api/<EmployeeController>
         [HttpPost]
         public ActionResult<int> Post([FromBody] Employee emp)
         {
-            return emp.Id;
+            return 55;
 
         }
 
         // PUT api/<EmployeeController>/5
-        [HttpPut("{id}")]
-        public ActionResult<bool> Put(int id, [FromBody] Employee emp)
+        [HttpPut]
+        public ActionResult<bool> Put([FromBody] Employee emp)
         {
-
             if (emp != null)
             {
                 return true;

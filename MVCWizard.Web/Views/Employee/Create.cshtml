@@ -1,19 +1,16 @@
-﻿@model EmployeeDto;
+﻿@model MVCWizard.Web.Models.EmployeeDto
 
 @{
-    ViewData["Title"] = "Steps";
-    List<EmployeeDto>? emps = ViewBag.Employees as List<EmployeeDto>;
+    ViewData["Title"] = "Create";
 }
 
-<h1>@ViewData["Title"]</h1>
-@if(emps is not null)
-{
-    @foreach(EmployeeDto emp in emps)
-    {
-        <b>@emp.FullName</b>
-    }
-}
-<form asp-action="Create" asp-controller="Home" data-ajax="true" data-ajax-method="POST"
+<h1>Create</h1>
+
+<h4>Employee</h4>
+<hr />
+
+
+<form asp-action="Create" asp-controller="Employee" data-ajax="true" data-ajax-method="POST"
       data-ajax-confirm="Are you sure?"
       data-ajax-mode="replace" data-ajax-update="#List" id="CreateForm" enctype="multipart/form-data">
 
@@ -61,7 +58,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label asp-for="DateOfBirth" class="control-label"></label>
-                            <input asp-for="DateOfBirth" asp-format="{0:dd/mm/yyyy}" class="form-control" />
+                            <input asp-for="DateOfBirth" asp-format="{0:dd/mm/yyyy}"  class="form-control datepicker" />
                             <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                         </div>
                     </div>
@@ -137,10 +134,23 @@
     </div>
 
 </form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
 @section Scripts {
 <script>
-
      $(document).ready(function () {
+
+         
+         $(".datepicker").datepicker(
+             {
+                 dateFormat: 'dd/MM/yyyy'
+             }
+         );
+
 
         $(".submit").click(function () {
             return false;
@@ -186,6 +196,4 @@
      });
 </script>
     }
-
-
 
