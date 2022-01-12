@@ -13,10 +13,10 @@ namespace MVCWizard.Data.Models
         public string FullName { get; set; }
 
         [Required]
-        public DateOnly DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
         [Required]
-        public string Gender { get; set; }
+        public int Gender { get; set; }
 
 
         [Required]
@@ -27,13 +27,13 @@ namespace MVCWizard.Data.Models
 
 
         [Required]
-        public DateOnly DateOfStart { get; set; }
+        public DateTime  DateOfStart { get; set; }
 
 
         [Required]
         public string Bio { get; set; }
 
         [Required]
-        public bool CompletionStatus { get; set; } = false;
+        public int CompletionStatus { get; set; } = 0;
     }
 }

@@ -1,11 +1,14 @@
-﻿@model EmployeeDto;
+﻿@model MVCWizard.Web.Models.EmployeeDto
 
 @{
-    ViewData["Title"] = "Steps";
+    ViewData["Title"] = "Create";
 }
 
-<h1>@ViewData["Title"]</h1>
-<form asp-action="Create" asp-controller="Home" data-ajax="true" data-ajax-method="POST"
+<h4>Create Employee</h4>
+<hr />
+
+
+<form asp-action="Create" asp-controller="Employee" data-ajax="true" data-ajax-method="POST"
       data-ajax-confirm="Are you sure?"
       data-ajax-mode="replace" data-ajax-update="#List" id="CreateForm" enctype="multipart/form-data">
 
@@ -53,7 +56,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label asp-for="DateOfBirth" class="control-label"></label>
-                            <input asp-for="DateOfBirth" asp-format="{0:dd/mm/yyyy}" class="form-control" />
+                            <input asp-for="DateOfBirth" asp-format="{0:dd/mm/yyyy}"  class="form-control" />
                             <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                         </div>
                     </div>
@@ -129,14 +132,32 @@
     </div>
 
 </form>
-@section Scripts {
-<script>
 
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+@section Scripts {
+
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script src="~/node_modules/bs-stepper/dist/js/bs-stepper.min.js"></script>
+
+<script>
      $(document).ready(function () {
 
-        $(".submit").click(function () {
-            return false;
-        })
+         
+         //$(".datepicker").datepicker(
+         //    {
+         //        dateFormat: 'dd-mm-yyyy'
+         //    }
+         //);
+
+
+        //$(".submit").click(function () {
+        //    return false;
+        //})
 
        //debugger;
        var stepper1Node = document.querySelector('#stepper1');
@@ -178,6 +199,4 @@
      });
 </script>
     }
-
-
 
