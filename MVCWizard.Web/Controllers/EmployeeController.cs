@@ -73,18 +73,18 @@ namespace MVCWizard.Web.Controllers
             return View(Employee);
         }
 
-        [HttpPut]
+        [HttpPost]
         [ValidateAntiForgeryToken]
+        [DisableRequestSizeLimit]
         public async Task<ActionResult> Edit([Bind("Id","DateOfBirth", "Dept", "FullName", "Bio", "Salary", "Gender", "DateOfStart")] EmployeeDto emp)
         {
-            IList<object> gender_list = new List<object>()
-            {new  { ID="1",Name="Male"}, new { ID = "2", Name = "Female" } };
-            ViewBag.GenderList = new SelectList(gender_list, "ID", "Name");
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
 
             var Employee = await _employeeService.UpdateAsync(emp);
-
-            return View(Employee);
-            
+            return RedirectToAction("Index");
         }
 
        

@@ -2,24 +2,20 @@
 
 @{
     ViewData["Title"] = "Edit";
-    var dto = Model.DateOfBirth;
-
 }
 
-<h1>Edit</h1>
-
-<h4>EmployeeDto</h4>
+<h1>Edit Employee - @Model?.FullName</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" asp-controller="Employee" data-ajax="true" data-ajax-method="Edit"
-      data-ajax-confirm="Are you sure?"
-      data-ajax-mode="replace" data-ajax-update="#List" id="EditForm" enctype="multipart/form-data">
+        <form asp-action="Edit" asp-controller="Employee" data-ajax="true" data-ajax-method="Post"
+      data-ajax-confirm="Are you sure?" 
+      data-ajax-mode="replace" id="EditForm" enctype="multipart/form-data">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
+                <input asp-for="Id" class="form-control" readonly />
                 <span asp-validation-for="Id" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -29,7 +25,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="DateOfBirth" class="control-label"></label>
-                <input asp-for="DateOfBirth" asp-format="{0:dd/mm/yyyy}" class="form-control" />
+                <input asp-for="DateOfBirth" asp-format="{0:dd/mm/yyyy}" class="form-control datepicker" type="text" />
                 <span asp-validation-for="DateOfBirth" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -49,7 +45,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="DateOfStart" class="control-label"></label>
-                <input asp-for="DateOfStart" asp-format="{0:dd/mm/yyyy}" class="form-control" />
+                <input asp-for="DateOfStart" asp-format="{0:dd/mm/yyyy}" class="form-control  datepicker" type="text" />
                 <span asp-validation-for="DateOfStart" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -63,7 +59,7 @@
                 <span asp-validation-for="CompletionStatus" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Update" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -74,5 +70,23 @@
 </div>
 
 @section Scripts {
+
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+
+    
+<script>
+     $(document).ready(function () {
+         
+         console.log('(document) ready called');
+
+         $(".datepicker").datepicker(
+             {
+                 dateFormat: 'dd/mm/yy',
+                 format: 'dd/mm/yy'
+
+             }
+         );
+     });
+ </script>
+
+ }

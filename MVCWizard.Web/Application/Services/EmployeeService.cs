@@ -67,8 +67,8 @@ namespace MVCWizard.Web.Application.Services
             {
                 using var contentStream = await httpResponseMessage.Content.ReadAsStreamAsync();
                 var serOpt = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
-                var EmpId = JsonSerializer.Deserialize<int>(contentStream, serOpt);
-                return EmpId;
+                bool success = JsonSerializer.Deserialize<bool>(contentStream, serOpt);
+                return success ? 1 : -1;
             }
             return -1;
         }
