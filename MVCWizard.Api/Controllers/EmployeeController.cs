@@ -11,11 +11,11 @@ namespace MVCWizard.Api.Controllers
         public async Task<IEnumerable<Employee>> Get()
         {
 
-            return new List<Employee>() 
-            { 
+            return new List<Employee>()
+            {
                 new Employee
-                { 
-                    Id=1, FullName= "Omar", Bio  ="My CV", CompletionStatus=1, 
+                {
+                    Id=1, FullName= "Omar", Bio  ="My CV", CompletionStatus=1,
                     DateOfBirth = DateTime.Now.AddYears(-38), DateOfStart=DateTime.Now,
                     Dept="Account", Gender=1, Salary=4000
                 },
@@ -33,18 +33,37 @@ namespace MVCWizard.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Employee>> Get(int id)
         {
-            return new Employee
+            if (id == 1)
             {
-                Id = 1,
-                FullName = "Omar",
-                Bio = "My CV",
-                CompletionStatus = 1,
-                DateOfBirth = DateTime.Now.AddYears(-38),
-                DateOfStart = DateTime.Now,
-                Dept = "Account",
-                Gender = 1,
-                Salary = 4000
-            };
+                return new Employee
+                {
+                    Id = 1,
+                    FullName = "Omar",
+                    Bio = "My CV",
+                    CompletionStatus = 1,
+                    DateOfBirth = DateTime.Now.AddYears(-38),
+                    DateOfStart = DateTime.Now,
+                    Dept = "Account",
+                    Gender = 1,
+                    Salary = 4000
+                };
+            }
+            else
+            {
+                return new Employee
+                {
+                    Id = 2,
+                    FullName = "Noor",
+                    Bio = "My CV",
+                    CompletionStatus = 1,
+                    DateOfBirth = DateTime.Now.AddYears(-32),
+                    DateOfStart = DateTime.Now,
+                    Dept = "Account",
+                    Gender = 2,
+                    Salary = 9000
+                };
+            }
+
         }
 
         // POST api/<EmployeeController>

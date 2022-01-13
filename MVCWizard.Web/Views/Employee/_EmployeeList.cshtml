@@ -1,0 +1,125 @@
+﻿@model IEnumerable<MVCWizard.Web.Models.EmployeeDto>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Dept)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Salary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfStart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bio)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfBirth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Dept)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Salary)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfStart)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Bio)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new {  id=item.Id  }) |
+                    @Html.ActionLink("Details", "Details", new {  id=item.Id  }) |
+                    @Html.ActionLink("Delete", "Delete", new {  id=item.Id  })
+                    <input type="button" data-id="@item.Id" value="View Details"  />
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<hr />
+
+@section Scripts {
+<script>
+     $(document).ready(function () {
+         console.log('Employee list document ready called');
+
+
+         $("[data-id]").on
+         ( "click", 
+             function()
+             {
+                 var empid = $(this).attr('data-id');
+                 alert(empid); 
+             }
+         );
+
+
+     });
+     
+     
+     
+     function view_emp_details(eid)
+     {
+
+          $.ajax({
+                       type: "GET",
+                       url: "/Employee/GetEmployeeDetails",
+                       contentType: "application/json; charset=utf-8",
+                       dataType: "html",
+                       cache: false,
+                       data: {emp_id = eid},
+                       success: function (response) {
+                           $("#div_emp_details").html('');
+
+                           $("#div_emp_details").html(response);
+                       },
+                       failure: function (response)
+                       {
+                           console.log(response);
+                       },
+                       error: function (response)
+                       {
+                           console.log(response);
+                       }
+                  });
+
+
+     }
+ </script>
+
+ }
+
