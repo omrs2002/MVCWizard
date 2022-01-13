@@ -1,65 +1,46 @@
 ﻿@model MVCWizard.Web.Models.EmployeeDto
-@{
-    var x = "test";
-}
 <div>
     <h4>@Model?.FullName - Employee</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
+    <div class="row">
+        <div class="md-col-3">
+            @Html.DisplayNameFor(model => model.Id):
             @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FullName)
-        </dt>
-        <dd class = "col-sm-10">
+        </div>
+        <div class="md-col-3">
+            @Html.DisplayNameFor(model => model.FullName):
             @Html.DisplayFor(model => model.FullName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateOfBirth)
-        </dt>
-        <dd class = "col-sm-10">
+        </div>
+        <div class="md-col-3">
+            @Html.DisplayNameFor(model => model.DateOfBirth) :
             @Html.DisplayFor(model => model.DateOfBirth)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Gender)
-        </dt>
-        <dd class = "col-sm-10">
+        </div>
+        <div class="md-col-3">
+            @Html.DisplayNameFor(model => model.Gender):
             @Html.DisplayFor(model => model.Gender)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Dept)
-        </dt>
-        <dd class = "col-sm-10">
+        </div>
+        <div class="md-col-3">
+            @Html.DisplayNameFor(model => model.Dept):
             @Html.DisplayFor(model => model.Dept)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Salary)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Salary)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateOfStart)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateOfStart)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Bio)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Bio)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CompletionStatus)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CompletionStatus)
-        </dd>
-    </dl>
+        </div>
+        <div class="row">
+            <div class="md-col-3">
+                @Html.DisplayNameFor(model => model.Salary):@Html.DisplayFor(model => model.Salary)
+            </div>
+            <div class="md-col-3">
+                @Html.DisplayNameFor(model => model.DateOfStart):
+                @Html.DisplayFor(model => model.DateOfStart)
+            </div>
+            <div class="md-col-3">
+                @Html.DisplayNameFor(model => model.Bio)
+                @Html.DisplayFor(model => model.Bio)
+            </div>
+            <div class="md-col-3">
+                @Html.DisplayNameFor(model => model.CompletionStatus)
+                @Html.DisplayFor(model => model.CompletionStatus)
+            </div>
+
+        </div>
+    </div>
 </div>
 

@@ -22,21 +22,23 @@
 </div>
 <br />
 <hr />
-
 <div id="div_emp_details">
+</div>
+<br />
+<div id="dialog" style="display: none">
+
 </div>
 @section Scripts {
 
 <script>
     $(document).ready(function () {
-    
         
     //////////////////////////////////////////
     var item = $('#CompletedSections');
     var url = item.data("url");
-    item.load(url);
+    //item.load(url,function() {alert( "Load from Url Completed!" );});
     //////////////////////////////////////////
-
+    item.load(url);
     $.ajax({
         type: "GET",
         url: "/Employee/GetEmployeesAsPartialView",
@@ -80,8 +82,35 @@
                 }
             });
         });
-    }
 
+    //Show details in Dialog:
+    $("#dialog").dialog({
+                autoOpen: false,
+                modal: true,
+                title: "View Employee Details"
+            });
+
+   $("[data-empid]").on
+        ("click",
+            function () {
+            var empid = $(this).attr('data-empid');
+                $.ajax({
+                type: "GET",
+                url: "/Employee/GetEmployeeDetails",
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                data: {"emp_id": empid},
+                cache: false,
+                success: function (response) {
+                    var dialogitem = $('#dialog');
+                    dialogitem.html(response);
+                    dialogitem.dialog('open');
+                }
+            });
+        });
+    }//end of 'add_events_to_button'
+
+  
   
 });
 

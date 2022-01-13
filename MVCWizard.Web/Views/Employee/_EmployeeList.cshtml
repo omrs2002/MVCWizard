@@ -64,6 +64,7 @@
                     @Html.ActionLink("Details", "Details", new {  id=item.Id  }) |
                     @Html.ActionLink("Delete", "Delete", new {  id=item.Id  })
                     <input type="button" data-id="@item.Id" value="View Details"  />
+                    <input type="button" data-empid="@item.Id" value="View Details popup"  />
                 </td>
             </tr>
         }
