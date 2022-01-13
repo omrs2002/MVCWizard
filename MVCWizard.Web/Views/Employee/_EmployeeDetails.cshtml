@@ -1,14 +1,10 @@
 ﻿@model MVCWizard.Web.Models.EmployeeDto
-
-@{
-    ViewData["Title"] = "Details";
-}
 <div>
     <h4>@Model?.FullName - Employee</h4>
     <hr />
     <div class="row">
         <div class="md-col-3">
-            <b>@Html.DisplayNameFor(model => model.Id)</b>:
+            @Html.DisplayNameFor(model => model.Id):
             @Html.DisplayFor(model => model.Id)
         </div>
         <div class="md-col-3">
@@ -29,8 +25,7 @@
         </div>
         <div class="row">
             <div class="md-col-3">
-                @Html.DisplayNameFor(model => model.Salary):
-                @Html.DisplayFor(model => model.Salary)
+                @Html.DisplayNameFor(model => model.Salary):@Html.DisplayFor(model => model.Salary)
             </div>
             <div class="md-col-3">
                 @Html.DisplayNameFor(model => model.DateOfStart):
@@ -49,7 +44,3 @@
     </div>
 </div>
 
-<div>
-    @Html.ActionLink("Edit", "Edit", new { id = @Model.Id }) |
-    <a asp-action="Index">Back to List</a>
-</div>

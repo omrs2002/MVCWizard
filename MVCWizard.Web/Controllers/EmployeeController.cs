@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using MVCWizard.Web.Application;
 using MVCWizard.Web.Application.Contracts;
 using MVCWizard.Web.Models;
 
@@ -87,27 +88,40 @@ namespace MVCWizard.Web.Controllers
             return RedirectToAction("Index");
         }
 
-       
+
 
         // GET: EmployeeController/Delete/5
-        public ActionResult Delete(int id)
+        [HttpGet]
+        public async Task<ActionResult> Delete(int emp_id)
         {
-            return View();
+            var Employee = await _employeeService.GetEmployeeByIDAsync(emp_id);
+            return PartialView(Constants.PartialNames.EmployeeDelete, Employee);
         }
 
         // POST: EmployeeController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> DeleteConfirm(int emp_id)
         {
-            try
-            {
+                var result = await _employeeService.DeleteAsync(emp_id);
                 return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetEmployeesAsPartialViewAsync()
+        {
+            var Employees = await _employeeService.GetAllEmployeesAsync();
+            return PartialView(Constants.PartialNames.EmployeeList, Employees);
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetEmployeeDetailsAsync(int emp_id)
+        {
+            var Employee = await _employeeService.GetEmployeeByIDAsync(emp_id);
+            return PartialView(Constants.PartialNames.EmployeeDetails, Employee);
+        }
+
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MVCWizard.Api.Data;
 using MVCWizard.Data.Models;
+using System.Data.Entity;
 
 namespace MVCWizard.Api.Controllers
 {
@@ -7,15 +9,21 @@ namespace MVCWizard.Api.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
+        EmployeeDBContext _dbcontext;
+        public EmployeeController(EmployeeDBContext dbcontext)
+        {
+            _dbcontext = dbcontext;
+        }
+
         [HttpGet]
         public async Task<IEnumerable<Employee>> Get()
         {
 
-            return new List<Employee>() 
-            { 
+            return new List<Employee>()
+            {
                 new Employee
-                { 
-                    Id=1, FullName= "Omar", Bio  ="My CV", CompletionStatus=1, 
+                {
+                    Id=1, FullName= "Omar", Bio  ="My CV", CompletionStatus=1,
                     DateOfBirth = DateTime.Now.AddYears(-38), DateOfStart=DateTime.Now,
                     Dept="Account", Gender=1, Salary=4000
                 },
@@ -33,18 +41,37 @@ namespace MVCWizard.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Employee>> Get(int id)
         {
-            return new Employee
+            if (id == 1)
             {
-                Id = 1,
-                FullName = "Omar",
-                Bio = "My CV",
-                CompletionStatus = 1,
-                DateOfBirth = DateTime.Now.AddYears(-38),
-                DateOfStart = DateTime.Now,
-                Dept = "Account",
-                Gender = 1,
-                Salary = 4000
-            };
+                return new Employee
+                {
+                    Id = 1,
+                    FullName = "Omar",
+                    Bio = "My CV",
+                    CompletionStatus = 1,
+                    DateOfBirth = DateTime.Now.AddYears(-38),
+                    DateOfStart = DateTime.Now,
+                    Dept = "Account",
+                    Gender = 1,
+                    Salary = 4000
+                };
+            }
+            else
+            {
+                return new Employee
+                {
+                    Id = 2,
+                    FullName = "Noor",
+                    Bio = "My CV",
+                    CompletionStatus = 1,
+                    DateOfBirth = DateTime.Now.AddYears(-32),
+                    DateOfStart = DateTime.Now,
+                    Dept = "Account",
+                    Gender = 2,
+                    Salary = 9000
+                };
+            }
+
         }
 
         // POST api/<EmployeeController>
@@ -69,9 +96,15 @@ namespace MVCWizard.Api.Controllers
 
         // DELETE api/<EmployeeController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult<bool>> Delete(int id)
         {
-            return Ok();
+            //var emp = await _dbcontext.Employees.FirstOrDefaultAsync(e=>e.Id == id);
+            //if(emp!=null)
+            //{
+                //_dbcontext.Employees.Remove(emp);
+               // await _dbcontext.SaveChangesAsync();
+            //}
+            return true;
         }
     }
 }

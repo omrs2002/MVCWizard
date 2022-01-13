@@ -8,6 +8,7 @@ namespace MVCWizard.Web.Application.Contracts
         Task<EmployeeDto> GetEmployeeByIDAsync(int Id);
         Task<int> CreateAsync(EmployeeDto emp);
         Task<int> UpdateAsync(EmployeeDto emp);
+        Task<bool> DeleteAsync(int Id);
 
     }
 }

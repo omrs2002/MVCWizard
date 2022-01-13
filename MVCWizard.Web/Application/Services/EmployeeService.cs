@@ -73,6 +73,21 @@ namespace MVCWizard.Web.Application.Services
             return -1;
         }
 
+        public async Task<bool> DeleteAsync(int Id)
+        {
+            var httpResponseMessage = await _httpClient.DeleteAsync("api/Employee/"+Id);
+
+            if (httpResponseMessage.IsSuccessStatusCode)
+            {
+                using var contentStream = await httpResponseMessage.Content.ReadAsStreamAsync();
+                var serOpt = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
+                bool success = JsonSerializer.Deserialize<bool>(contentStream, serOpt);
+                return success ;
+            }
+            return false;
+        }
+
+
 
     }
 }
