@@ -7,38 +7,65 @@
 <p>
     <a asp-action="Create">Create New Emplyee</a>
 </p>
+
+<hr />
+<ul class="nav justify-content-center">
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="#">Active</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Link</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Link</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+  </li>
+</ul>
+<br />
+
 <h5>Get Emp partial using data url:</h5>
 <div id="CompletedSections" 
      data-url="@Url.Action("GetEmployeesAsPartialView", "Employee")">
 </div>
 <br />
 <hr />
-
+<h5>Get Emp partial using partial TAG:</h5>
 <partial name="_EmployeeList.cshtml" for="@Model" />
+
+
 <br />
 <hr />
 <h5>Get Emp Div By Ajax:</h5>
 <div id="emp_div">
 </div>
 <br />
-<hr />
-<div id="div_emp_details">
-</div>
-<br />
 <div id="dialog" style="display: none">
 
 </div>
+
+<br />
+<hr />
+<div id="div_emp_details">
+</div>
+
 @section Scripts {
 
 <script>
     $(document).ready(function () {
         
     //////////////////////////////////////////
+    //Get Emp partial using data url:
     var item = $('#CompletedSections');
     var url = item.data("url");
+    item.load(url);
     //item.load(url,function() {alert( "Load from Url Completed!" );});
     //////////////////////////////////////////
-    item.load(url);
+
+
+
+    //Get Emp Div By Ajax:
     $.ajax({
         type: "GET",
         url: "/Employee/GetEmployeesAsPartialView",
@@ -48,6 +75,8 @@
         data: {},
         success: function (response) {
             $("#emp_div").html(response);
+            
+            //add code for show employee Details:
             add_events_to_button();
         },
         failure: function (response) {
@@ -58,12 +87,14 @@
         }
     });
 
+
+    //code for show employee Details:
     function add_events_to_button() {
         $("[data-id]").on
         ("click",
             function () {
             var empid = $(this).attr('data-id');
-            //alert(empid);
+            
             $.ajax({
                 type: "GET",
                 url: "/Employee/GetEmployeeDetails",
@@ -108,6 +139,33 @@
                 }
             });
         });
+
+        //Show delete in Dialog:
+        $("[data-empid-del]").on
+        ("click",
+            function () {
+               
+            var empid = $(this).attr('data-empid-del');
+            var del_url = $(this).attr('data-url');
+            //alert(empid + " - " + del_url);
+
+                $.ajax({
+                type: "GET",
+                url: del_url,
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                data: {"emp_id": empid},
+                cache: false,
+                success: function (response) {
+                    var dialogitem = $('#dialog');
+                    dialogitem.html(response);
+                    dialogitem.dialog('open');
+                }
+            });
+        });
+
+
+
     }//end of 'add_events_to_button'
 
   

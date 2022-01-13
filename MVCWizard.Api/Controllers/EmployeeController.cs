@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MVCWizard.Api.Data;
 using MVCWizard.Data.Models;
+using System.Data.Entity;
 
 namespace MVCWizard.Api.Controllers
 {
@@ -7,6 +9,12 @@ namespace MVCWizard.Api.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
+        EmployeeDBContext _dbcontext;
+        public EmployeeController(EmployeeDBContext dbcontext)
+        {
+            _dbcontext = dbcontext;
+        }
+
         [HttpGet]
         public async Task<IEnumerable<Employee>> Get()
         {
@@ -88,9 +96,15 @@ namespace MVCWizard.Api.Controllers
 
         // DELETE api/<EmployeeController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult<bool>> Delete(int id)
         {
-            return Ok();
+            //var emp = await _dbcontext.Employees.FirstOrDefaultAsync(e=>e.Id == id);
+            //if(emp!=null)
+            //{
+                //_dbcontext.Employees.Remove(emp);
+               // await _dbcontext.SaveChangesAsync();
+            //}
+            return true;
         }
     }
 }
