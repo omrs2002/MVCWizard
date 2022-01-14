@@ -60,60 +60,32 @@
                     @Html.DisplayFor(modelItem => item.Bio)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new {  id=item.Id  }) |
-                    
-                    <input type="button" data-id="@item.Id" value="View Details"  />
-                    <input type="button" data-empid="@item.Id" value="View Details popup"  />
-                    
+                    <input type="button" data-id="@item.Id" value="View Details" 
+                    class="btn btn-success btn-sm"
+                    data-url="@Url.Action("GetEmployeeDetails", "Employee", new {  emp_id=item.Id  })" 
+                    />
+                    <input type="button" data-empid="@item.Id" value="View Details popup"
+                    data-url="@Url.Action("GetEmployeeDetails", "Employee", new {  emp_id=item.Id  })"
+                    class="btn btn-warning btn-sm"
+                    />
+                     <input type="button" data-edit="@item.Id" value="Edit"
+                    data-url="@Url.Action("GetEmployeeEdit", "Employee", new {  emp_id=item.Id  })"
+                    class="btn btn-warning btn-sm"
+                    />
+
                     <input type="button" data-empid-del="@item.Id" value="Delete" 
-                    class="btn btn-danger" data-url="@Url.Action("Delete", "Employee", new {  id=item.Id  })"  />
+                    class="btn btn-danger btn-sm" data-url="@Url.Action("Delete", "Employee", new {  emp_id=item.Id  })"  />
                 </td>
             </tr>
         }
     </tbody>
 </table>
-<br />
-<hr />
-
 @section Scripts {
 <script>
      $(document).ready(function () {
          console.log('Employee list document ready called');
-
-
-         $("[data-id]").on
-         ( "click", 
-             function()
-             {
-                 var empid = $(this).attr('data-id');
-                 alert(empid); 
-             }
-         );
-
-
      });
      
-     
-     
-     function view_emp_details(eid)
-     {
-
-          $.ajax({
-                       type: "GET",
-                       url: "/Employee/GetEmployeeDetails",
-                       contentType: "application/json; charset=utf-8",
-                       dataType: "html",
-                       cache: false,
-                       data: {emp_id = eid},
-                       success: function (response) {
-                           $("#div_emp_details").html('');
-
-                           $("#div_emp_details").html(response);
-                       }
-                  });
-
-
-     }
  </script>
 
  }

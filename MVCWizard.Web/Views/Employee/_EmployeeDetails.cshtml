@@ -1,7 +1,6 @@
 ﻿@model MVCWizard.Web.Models.EmployeeDto
 <div>
     <h4>@Model?.FullName - Employee</h4>
-    <hr />
     <div class="row">
         <div class="md-col-3">
             @Html.DisplayNameFor(model => model.Id):
@@ -39,7 +38,6 @@
                 @Html.DisplayNameFor(model => model.CompletionStatus)
                 @Html.DisplayFor(model => model.CompletionStatus)
             </div>
-
         </div>
     </div>
 </div>
