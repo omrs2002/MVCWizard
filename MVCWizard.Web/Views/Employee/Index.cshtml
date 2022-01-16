@@ -8,169 +8,239 @@
     <a asp-action="Create">Create New Emplyee</a>
 </p>
 
-<hr />
-<ul class="nav justify-content-center">
-  <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="#">Active</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-  </li>
-</ul>
-<br />
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Get Emp partial using data url:
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
 
-<h5>Get Emp partial using data url:</h5>
-<div id="CompletedSections" 
-     data-url="@Url.Action("GetEmployeesAsPartialView", "Employee")">
+                        <div id="CompletedSections"
+                             data-url="@Url.Action("GetEmployeesAsPartialView", "Employee")">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Get Emp partial using partial TAG:
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <partial name="_EmployeeList.cshtml" for="@Model" />
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Get Emp Div By Ajax:
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div id="emp_div">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        Employee Details:
+        <br />
+        
+        <br />
+        <div id="dialog" style="display: none"   class="ui-widget">
+        </div>
+        
+        <div id="dialog_edit"  style="display: none" class="ui-widget"
+         role="dialog"></div>
+        
+        <br />
+         <div id="div_emp_details"  class="ui-widget" >
+        </div>
+
+        Modal:
+        <br />
+        <button type="button" id="btn_modal" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Open Small Modal</button>
+        
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+  Launch demo modal
+</button>
+
+        
+<!-- Modal myModal-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
 </div>
-<br />
-<hr />
-<h5>Get Emp partial using partial TAG:</h5>
-<partial name="_EmployeeList.cshtml" for="@Model" />
 
 
-<br />
-<hr />
-<h5>Get Emp Div By Ajax:</h5>
-<div id="emp_div">
-</div>
-<br />
-<div id="dialog" style="display: none">
-
-</div>
-
-<br />
-<hr />
-<div id="div_emp_details">
-</div>
 
 @section Scripts {
-
 <script>
-    $(document).ready(function () {
+        $(document).ready(function () {
+
+            //modal test:
+            $("#btn_modal").click(function () {  
+                $("#myModal").modal('show');  
+            });  
+
+
+        //Prepare Show details in Dialog:
+        $("#dialog").dialog({
+                    autoOpen: false,
+                    modal: true,
+                    title: "View Employee Details",
+                     show: {
+                            effect: "blind",
+                            duration: 500
+                           },
+                    hide: {
+                            effect: "blind",
+                            duration: 500
+                         }
+                });
+
+        //Prepare edit in Dialog:
+        $("#dialog_edit").dialog({
+                    autoOpen: false,
+                    modal: true,
+                    close: function( event, ui ) 
+                    {
+                        load_employees();
+                    },
+                    title: "Edit Employee Details"
+                });
+        //////////////////////////////////////////
+        //Get Emp partial using data url:
+        load_employees();
+       
+
+
+        //Get Emp Div By Ajax:
+        $.ajax({
+            type: "GET",
+            url: "/Employee/GetEmployeesAsPartialView",
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            cache: false,
+            data: {},
+            success: function (response) {
+                $("#emp_div").html(response);
+
+                //add code for show employee Details:
+                add_events_to_button();
+            }
+        });
+
+        function add_events_to_button() {
+            //code for show employee Details:
+            $("[data-id]").on
+            ("click",
+                function () {
+
+                var empid = $(this).attr('data-id');
+                var get_emp_det_url  = $(this).attr('data-url');
+                console.log('get_emp_det_url',get_emp_det_url);
+
+                $("#div_emp_details").load(get_emp_det_url );
+            });
+
+            //code for show employee Edit:
+             $("[data-edit]").on
+            ("click",
+                function () {
+                var get_emp_edit_url  = $(this).attr('data-url');
+                // $("#dialog_edit")
+                 var dialog_edit = $('#dialog_edit');
+                dialog_edit.load
+                (   get_emp_edit_url,
+                    function()
+                    {
+                        dialog_edit.dialog('open');
+                    }
+               );
+            });
+
+
+
+        //Add Code for show employee  Details in dialog:
+       $("[data-empid]").on
+            ("click",
+                function () {
+                var empid = $(this).attr('data-empid');
+                //debugger;
+                console.log('empid',empid);
+                var data_url_det  = $(this).attr('data-url');
+                console.log('data_url_det',data_url_det);
+                var dialogitem = $('#dialog');
+                dialogitem.load
+                (   data_url_det,
+                    function()
+                    {
+                        dialogitem.dialog('open');
+                    }
+               );
+            });
+
+            //Show delete in Dialog:
+            $("[data-empid-del]").on
+            ("click",
+                function () {
+
+                var empid = $(this).attr('data-empid-del');
+                var del_url = $(this).attr('data-url');
+                console.log('del_url',del_url);
+                var dialogitem = $('#dialog');
+                
+                dialogitem.load
+                (   del_url,
+                    function()
+                    {
+                        dialogitem.dialog('open');
+                    }
+               );
+            });
+
+
+        }//end of 'add_events_to_button'
+
+
         
-    //////////////////////////////////////////
-    //Get Emp partial using data url:
-    var item = $('#CompletedSections');
-    var url = item.data("url");
-    item.load(url);
-    //item.load(url,function() {alert( "Load from Url Completed!" );});
-    //////////////////////////////////////////
-
-
-
-    //Get Emp Div By Ajax:
-    $.ajax({
-        type: "GET",
-        url: "/Employee/GetEmployeesAsPartialView",
-        contentType: "application/json; charset=utf-8",
-        dataType: "html",
-        cache: false,
-        data: {},
-        success: function (response) {
-            $("#emp_div").html(response);
+       function load_employees()
+       {
+            var item = $('#CompletedSections');
+            var url = item.data("url");
             
-            //add code for show employee Details:
-            add_events_to_button();
-        },
-        failure: function (response) {
-            console.log(response);
-        },
-        error: function (response) {
-            console.log(response);
-        }
+            item.load(url,function() 
+            {
+                add_events_to_button();
+            });
+            
+       }
+
+
     });
-
-
-    //code for show employee Details:
-    function add_events_to_button() {
-        $("[data-id]").on
-        ("click",
-            function () {
-            var empid = $(this).attr('data-id');
-            
-            $.ajax({
-                type: "GET",
-                url: "/Employee/GetEmployeeDetails",
-                contentType: "application/json; charset=utf-8",
-                dataType: "html",
-                data: {"emp_id": empid},
-                cache: false,
-                success: function (response) {
-                    $("#div_emp_details").html(response);
-                },
-                failure: function (response) {
-                    console.log(response);
-                },
-                error: function (response) {
-                    console.log(response);
-                }
-            });
-        });
-
-    //Show details in Dialog:
-    $("#dialog").dialog({
-                autoOpen: false,
-                modal: true,
-                title: "View Employee Details"
-            });
-
-   $("[data-empid]").on
-        ("click",
-            function () {
-            var empid = $(this).attr('data-empid');
-                $.ajax({
-                type: "GET",
-                url: "/Employee/GetEmployeeDetails",
-                contentType: "application/json; charset=utf-8",
-                dataType: "html",
-                data: {"emp_id": empid},
-                cache: false,
-                success: function (response) {
-                    var dialogitem = $('#dialog');
-                    dialogitem.html(response);
-                    dialogitem.dialog('open');
-                }
-            });
-        });
-
-        //Show delete in Dialog:
-        $("[data-empid-del]").on
-        ("click",
-            function () {
-               
-            var empid = $(this).attr('data-empid-del');
-            var del_url = $(this).attr('data-url');
-            //alert(empid + " - " + del_url);
-
-                $.ajax({
-                type: "GET",
-                url: del_url,
-                contentType: "application/json; charset=utf-8",
-                dataType: "html",
-                data: {"emp_id": empid},
-                cache: false,
-                success: function (response) {
-                    var dialogitem = $('#dialog');
-                    dialogitem.html(response);
-                    dialogitem.dialog('open');
-                }
-            });
-        });
-
-
-
-    }//end of 'add_events_to_button'
-
-  
-  
-});
 
 </script>
 

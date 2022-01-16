@@ -2,3 +2,16 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+$(document).ready(function () {
+
+    console.log('(document) ready called from site.js');
+
+    $(".datepicker").datepicker(
+        {
+            dateFormat: 'dd/mm/yy',
+            format: 'dd/mm/yy'
+
+        }
+    );
+});
+

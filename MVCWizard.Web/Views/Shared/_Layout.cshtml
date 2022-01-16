@@ -4,10 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - MVCWizard.Web</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/node_modules/bs-stepper/dist/css/bs-stepper.min.css"  />
-    <link rel="stylesheet" href="~/lib/jqueryui/jquery-ui.css"/>
+    <link rel="stylesheet" href="~/node_modules/bs-stepper/dist/css/bs-stepper.min.css" />
+    <link rel="stylesheet" href="~/lib/jqueryui/jquery-ui.css" />
+    <link rel="stylesheet" href="~/lib/jqueryui/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="~/lib/jqueryui/themes/base/theme.min.css">
     <link rel="stylesheet" href="~/MVCWizard.Web.styles.css" asp-append-version="true" />
 </head>
 <body>
@@ -28,9 +30,19 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employees</a>
+
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" id="navbarDropdownMenuLink"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Employees </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <li>
+                                    <a class="nav-link text-dark" asp-area=""
+                                       asp-controller="Employee" asp-action="Index">Employees List - using data url</a>
+                                </li>
+                            </ul>
                         </li>
+
 
 
                     </ul>
@@ -43,13 +55,14 @@
             @RenderBody()
         </main>
     </div>
-    <partial name="_Footer.cshtml"  />
+    <partial name="_Footer.cshtml" />
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/jqueryui/jquery-ui.js"></script>
+    <script src="~/lib/jqueryui/jquery-ui.min.js"></script>
+      
 
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
 

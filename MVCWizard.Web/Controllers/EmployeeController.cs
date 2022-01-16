@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MVCWizard.Web.Application;
 using MVCWizard.Web.Application.Contracts;
@@ -59,7 +60,8 @@ namespace MVCWizard.Web.Controllers
             ViewBag.GenderList = new SelectList(gender_list, "ID", "Name");
 
             var Employee = await _employeeService.GetEmployeeByIDAsync(id);
-            return View(Employee);
+            //return View(Employee);
+            return PartialView(Employee);
         }
 
 
@@ -81,11 +83,22 @@ namespace MVCWizard.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                string errors = "";
+                foreach (var modelState in ViewData.ModelState.Values)
+                {
+                    foreach (ModelError error in modelState.Errors)
+                    {
+                        errors.Concat("," + error.ErrorMessage);  
+                    }
+                }
+                
+                //return Ok(errors);
+                return PartialView(Constants.PartialNames.EmployeeEdit,emp);
             }
 
             var Employee = await _employeeService.UpdateAsync(emp);
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
+            return PartialView(Constants.PartialNames.EmployeeDetails, emp);
         }
 
 
@@ -121,6 +134,14 @@ namespace MVCWizard.Web.Controllers
         {
             var Employee = await _employeeService.GetEmployeeByIDAsync(emp_id);
             return PartialView(Constants.PartialNames.EmployeeDetails, Employee);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetEmployeeEditAsync(int emp_id)
+        {
+            var Employee = await _employeeService.GetEmployeeByIDAsync(emp_id);
+            return PartialView(Constants.PartialNames.EmployeeEdit, Employee);
+
         }
 
     }

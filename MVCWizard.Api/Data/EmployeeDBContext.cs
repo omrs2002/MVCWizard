@@ -5,19 +5,30 @@ namespace MVCWizard.Api.Data
 {
     public class EmployeeDBContext : DbContext
     {
+
+        private readonly string _connectionString;
+
+        
+        public EmployeeDBContext(DbContextOptions<EmployeeDBContext> options) : base(options)
+        {   
+            
+           IConfigurationRoot configuration = new ConfigurationBuilder()
+          .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+          .AddJsonFile("appsettings.json")
+          .Build();
+
+            _connectionString =configuration.GetConnectionString("DefaultConnection");
+
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-
-            optionsBuilder.UseSqlServer(connStr);
+            optionsBuilder.UseSqlServer(_connectionString);
             base.OnConfiguring(optionsBuilder);
-            
-        }
-
-        public EmployeeDBContext(DbContextOptions<EmployeeDBContext> options) : base(options)
-        {
 
         }
+
+
 
         public DbSet<Employee> Employees { get; set; }
 
