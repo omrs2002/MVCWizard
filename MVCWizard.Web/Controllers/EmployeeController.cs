@@ -91,11 +91,14 @@ namespace MVCWizard.Web.Controllers
                         errors.Concat("," + error.ErrorMessage);  
                     }
                 }
-                return Ok(errors);
+                
+                //return Ok(errors);
+                return PartialView(Constants.PartialNames.EmployeeEdit,emp);
             }
 
             var Employee = await _employeeService.UpdateAsync(emp);
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
+            return PartialView(Constants.PartialNames.EmployeeDetails, emp);
         }
 
 

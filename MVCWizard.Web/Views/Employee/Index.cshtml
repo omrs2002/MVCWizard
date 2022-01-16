@@ -52,37 +52,91 @@
         </div>
         Employee Details:
         <br />
-        <div id="div_emp_details">
+        
+        <br />
+        <div id="dialog" style="display: none"   class="ui-widget">
+        </div>
+        
+        <div id="dialog_edit"  style="display: none" class="ui-widget"
+         role="dialog"></div>
+        
+        <br />
+         <div id="div_emp_details"  class="ui-widget" >
         </div>
 
+        Modal:
+        <br />
+        <button type="button" id="btn_modal" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Open Small Modal</button>
+        
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+  Launch demo modal
+</button>
 
-<div id="dialog" style="display: none">
+        
+<!-- Modal myModal-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 
 
 @section Scripts {
-
 <script>
         $(document).ready(function () {
+
+            //modal test:
+            $("#btn_modal").click(function () {  
+                $("#myModal").modal('show');  
+            });  
 
 
         //Prepare Show details in Dialog:
         $("#dialog").dialog({
                     autoOpen: false,
                     modal: true,
-                    title: "View Employee Details"
+                    title: "View Employee Details",
+                     show: {
+                            effect: "blind",
+                            duration: 500
+                           },
+                    hide: {
+                            effect: "blind",
+                            duration: 500
+                         }
                 });
 
+        //Prepare edit in Dialog:
+        $("#dialog_edit").dialog({
+                    autoOpen: false,
+                    modal: true,
+                    close: function( event, ui ) 
+                    {
+                        load_employees();
+                    },
+                    title: "Edit Employee Details"
+                });
         //////////////////////////////////////////
         //Get Emp partial using data url:
-        var item = $('#CompletedSections');
-        var url = item.data("url");
-        //item.load(url);
-        item.load(url,function() {
-            //alert( "Load from Url Completed!" );
-            add_events_to_button();
-        });
+        load_employees();
+       
+
+
         //Get Emp Div By Ajax:
         $.ajax({
             type: "GET",
@@ -99,8 +153,6 @@
             }
         });
 
-
-        
         function add_events_to_button() {
             //code for show employee Details:
             $("[data-id]").on
@@ -119,12 +171,13 @@
             ("click",
                 function () {
                 var get_emp_edit_url  = $(this).attr('data-url');
-                 var dialogitem = $('#dialog');
-                dialogitem.load
+                // $("#dialog_edit")
+                 var dialog_edit = $('#dialog_edit');
+                dialog_edit.load
                 (   get_emp_edit_url,
                     function()
                     {
-                        dialogitem.dialog('open');
+                        dialog_edit.dialog('open');
                     }
                );
             });
@@ -136,7 +189,7 @@
             ("click",
                 function () {
                 var empid = $(this).attr('data-empid');
-                debugger;
+                //debugger;
                 console.log('empid',empid);
                 var data_url_det  = $(this).attr('data-url');
                 console.log('data_url_det',data_url_det);
@@ -174,7 +227,17 @@
 
 
         
-       
+       function load_employees()
+       {
+            var item = $('#CompletedSections');
+            var url = item.data("url");
+            
+            item.load(url,function() 
+            {
+                add_events_to_button();
+            });
+            
+       }
 
 
     });
