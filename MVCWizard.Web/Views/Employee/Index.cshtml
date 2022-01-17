@@ -57,11 +57,10 @@
         <div id="dialog" style="display: none"   class="ui-widget">
         </div>
         
-        <div id="dialog_edit"  style="display: none" class="ui-widget"
-         role="dialog"></div>
+        
         
         <br />
-         <div id="div_emp_details"  class="ui-widget" >
+        <div id="div_emp_details"  class="ui-widget" >
         </div>
 
         Modal:
@@ -84,11 +83,11 @@
         </button>
       </div>
       <div class="modal-body">
-        ...
+        <div id="dialog_edit"  class="ui-widget"
+         role="dialog"></div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>
@@ -101,9 +100,9 @@
         $(document).ready(function () {
 
             //modal test:
-            $("#btn_modal").click(function () {  
-                $("#myModal").modal('show');  
-            });  
+            //$("#btn_modal").click(function () {  
+            //    $("#myModal").modal('show');  
+            //});  
 
 
         //Prepare Show details in Dialog:
@@ -122,6 +121,8 @@
                 });
 
         //Prepare edit in Dialog:
+        
+        
         $("#dialog_edit").dialog({
                     autoOpen: false,
                     modal: true,
@@ -131,6 +132,8 @@
                     },
                     title: "Edit Employee Details"
                 });
+
+
         //////////////////////////////////////////
         //Get Emp partial using data url:
         load_employees();
@@ -165,7 +168,7 @@
 
                 $("#div_emp_details").load(get_emp_det_url );
             });
-
+            ////////////////////////////////////
             //code for show employee Edit:
              $("[data-edit]").on
             ("click",
@@ -178,6 +181,8 @@
                     function()
                     {
                         dialog_edit.dialog('open');
+                        //$("#myModal").modal('show');  
+
                     }
                );
             });

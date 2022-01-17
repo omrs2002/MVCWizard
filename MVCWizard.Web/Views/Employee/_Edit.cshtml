@@ -1,66 +1,119 @@
-﻿@model MVCWizard.Web.Models.EmployeeDto
+﻿@using MVCWizard.Web.Application
+@model MVCWizard.Web.Models.EmployeeDto
 
 <div class="row">
     <div class="col-md-12">
-        <form asp-action="Edit" asp-controller="Employee" data-ajax="true" data-ajax-method="Post"
-      data-ajax-confirm="Are you sure?" 
-      data-ajax-mode="replace" id="EditForm" enctype="multipart/form-data">
-
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" readonly />
-                <span asp-validation-for="Id" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FullName" class="control-label"></label>
-                <input asp-for="FullName" class="form-control" />
-                <span asp-validation-for="FullName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateOfBirth" class="control-label"></label>
-                <input asp-for="DateOfBirth" asp-format="{0:dd/mm/yyyy}" class="form-control datepicker" type="text" />
-                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Gender" class="control-label"></label>
-                <input asp-for="Gender" class="form-control" />
-                <span asp-validation-for="Gender" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Dept" class="control-label"></label>
-                <input asp-for="Dept" class="form-control" />
-                <span asp-validation-for="Dept" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Salary" class="control-label"></label>
-                <input asp-for="Salary" class="form-control" />
-                <span asp-validation-for="Salary" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateOfStart" class="control-label"></label>
-                <input asp-for="DateOfStart" asp-format="{0:dd/mm/yyyy}" class="form-control datepicker" type="text" />
-                <span asp-validation-for="DateOfStart" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Bio" class="control-label"></label>
-                <input asp-for="Bio" class="form-control" />
-                <span asp-validation-for="Bio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CompletionStatus" class="control-label"></label>
-                <input asp-for="CompletionStatus" class="form-control" />
-                <span asp-validation-for="CompletionStatus" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Update" class="btn btn-primary" />
+        <form 
+            id="EditForm" 
+            asp-action="ConfirmEdit" 
+            asp-controller="Employee" 
+            data-ajax="true"
+            data-ajax-method="Post"
+            data-ajax-confirm="Are you sure?"
+            data-ajax-mode="replace" 
+             data-ajax-update="#div_edit" 
+              enctype="multipart/form-data"
+            >
+            <div id="div_edit">
+                <div class="form-group">
+                    <label asp-for="Id" class="control-label"></label>
+                    <input asp-for="Id" class="form-control" readonly />
+                    <span asp-validation-for="Id" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FullName" class="control-label"></label>
+                    <input asp-for="FullName" class="form-control" />
+                    <span asp-validation-for="FullName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DateOfBirth" class="control-label"></label>
+                    <input asp-for="DateOfBirth" asp-format="{0:dd/mm/yyyy}" class="form-control datepicker" type="text" />
+                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Gender" class="control-label"></label>
+                    <input asp-for="Gender" class="form-control" />
+                    <span asp-validation-for="Gender" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Dept" class="control-label"></label>
+                    <input asp-for="Dept" class="form-control" />
+                    <span asp-validation-for="Dept" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Salary" class="control-label"></label>
+                    <input asp-for="Salary" class="form-control" />
+                    <span asp-validation-for="Salary" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DateOfStart" class="control-label"></label>
+                    <input asp-for="DateOfStart" asp-format="{0:dd/mm/yyyy}" class="form-control datepicker" type="text" />
+                    <span asp-validation-for="DateOfStart" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Bio" class="control-label"></label>
+                    <input asp-for="Bio" class="form-control" />
+                    <span asp-validation-for="Bio" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CompletionStatus" class="control-label"></label>
+                    <input asp-for="CompletionStatus" class="form-control" />
+                    <span asp-validation-for="CompletionStatus" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="button" value="Update" class="btn btn-primary" id="btnSubmit" />
+                </div>
+                <div id="Results"></div>
             </div>
         </form>
     </div>
 </div>
+   @{
+    await Html.RenderPartialAsync(@Constants.PartialNames.ValidationScriptsPartial);
+}
 
-@section Scripts {
+<script>
+       $(document).ready(function () {
 
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+           console.log('_edit ready called');
+          
+           
+     
+           
+           $("#btnSubmit").click(function () {
+               var myformdata = $("#EditForm").serialize();
+               console.log(myformdata);
 
- }
+                //$.ajax({
+                $.ajax({
+                    type: "POST",
+                    url: "/Employee/ConfirmEdit?"+myformdata,
+                    //url: "/Employee/ConfirmEdit",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    cache: false,
+                    //data: {emp = myformdata},
+                    success: function (response) {
+                        debugger;
+                        if(response.errors != '')
+                            $('#Results').html(response.errors);
+                         else
+                            {
+                                alert('must close');
+                                debugger;
+                                $(this).dialog('close');
+                            }
+                            
+                        //alert('success');
+                        //alert(response);
+
+                    }
+                });//end of ajx call
+
+            });//end of submitt button call
+         
+       
+    });
+</script>
+
+

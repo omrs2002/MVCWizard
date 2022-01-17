@@ -1,4 +1,5 @@
-﻿@model MVCWizard.Web.Models.EmployeeDto
+﻿@using MVCWizard.Web.Application
+@model MVCWizard.Web.Models.EmployeeDto
 
 @{
     ViewData["Title"] = "Edit";
@@ -71,7 +72,7 @@
 
 @section Scripts {
 
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync(@Constants.PartialNames.ValidationScriptsPartial);}
 
     
 <script>

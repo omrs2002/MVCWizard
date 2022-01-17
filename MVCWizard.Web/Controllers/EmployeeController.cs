@@ -38,7 +38,7 @@ namespace MVCWizard.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return  BadRequest();
+                return BadRequest();
             }
             int empid = await _employeeService.CreateAsync(emp);
             return RedirectToAction("Index");
@@ -47,12 +47,12 @@ namespace MVCWizard.Web.Controllers
         // GET: EmployeeController/Details/5
         public async Task<ActionResult> Details(int id)
         {
-            
+
             var Employee = await _employeeService.GetEmployeeByIDAsync(id);
             return View(Employee);
         }
 
-        
+
         public async Task<ActionResult> Edit(int id)
         {
             IList<object> gender_list = new List<object>()
@@ -77,9 +77,9 @@ namespace MVCWizard.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        [DisableRequestSizeLimit]
-        public async Task<ActionResult> Edit([Bind("Id","DateOfBirth", "Dept", "FullName", "Bio", "Salary", "Gender", "DateOfStart")] EmployeeDto emp)
+        //[ValidateAntiForgeryToken]
+        //[DisableRequestSizeLimit]
+        public async Task<ActionResult> ConfirmEdit([Bind("Id", "DateOfBirth", "Dept", "FullName", "Bio", "Salary", "Gender", "DateOfStart")] EmployeeDto emp)
         {
             if (!ModelState.IsValid)
             {
@@ -88,17 +88,17 @@ namespace MVCWizard.Web.Controllers
                 {
                     foreach (ModelError error in modelState.Errors)
                     {
-                        errors.Concat("," + error.ErrorMessage);  
+                        errors = errors + "," + error.ErrorMessage;
                     }
                 }
-                
-                //return Ok(errors);
-                return PartialView(Constants.PartialNames.EmployeeEdit,emp);
+                return new JsonResult(new {Errors = errors });
             }
-
-            var Employee = await _employeeService.UpdateAsync(emp);
-            //return RedirectToAction("Index");
-            return PartialView(Constants.PartialNames.EmployeeDetails, emp);
+            else
+            {
+                var Employee = await _employeeService.UpdateAsync(emp);
+                //return PartialView(Constants.PartialNames.EmployeeDetails, emp);
+                return RedirectToAction("Index");
+            }
         }
 
 
@@ -116,8 +116,8 @@ namespace MVCWizard.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirm(int emp_id)
         {
-                var result = await _employeeService.DeleteAsync(emp_id);
-                return RedirectToAction(nameof(Index));
+            var result = await _employeeService.DeleteAsync(emp_id);
+            return RedirectToAction(nameof(Index));
         }
 
 

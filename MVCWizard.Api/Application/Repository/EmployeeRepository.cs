@@ -36,6 +36,13 @@ namespace MVCWizard.Api.Application.Contracts
             var emp_toupdate = await _employeeDB.Employees.Where(emp => emp.Id == emp.Id).FirstOrDefaultAsync();
             if (emp_toupdate != null)
             {
+                
+                emp_toupdate.Dept= emp.Dept;
+                emp_toupdate.Bio = emp.Bio;
+                emp_toupdate.Salary = emp.Salary;
+                emp_toupdate.DateOfStart= emp.DateOfStart;
+                emp_toupdate.DateOfBirth = emp.DateOfBirth;
+                emp_toupdate.Gender= emp.Gender;
                 emp_toupdate.FullName = emp.FullName;
 
                 await _employeeDB.SaveChangesAsync();

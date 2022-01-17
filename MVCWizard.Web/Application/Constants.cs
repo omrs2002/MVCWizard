@@ -11,8 +11,10 @@
             
             public const string EmployeeEdit = "~/views/Employee/_Edit.cshtml";
 
-
             public const string EmployeeDelete = "~/views/Employee/_Delete.cshtml";
+            
+            public const string ValidationScriptsPartial = "~/views/Shared/_ValidationScriptsPartial.cshtml";
+
 
         }
 
