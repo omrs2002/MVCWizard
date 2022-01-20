@@ -9,11 +9,12 @@
             asp-controller="Employee" 
             data-ajax="true"
             data-ajax-method="Post"
-            data-ajax-confirm="Are you sure?"
+           
             data-ajax-mode="replace" 
              data-ajax-update="#div_edit" 
               enctype="multipart/form-data"
             >
+             @Html.AntiForgeryToken()
             <div id="div_edit">
                 <div class="form-group">
                     <label asp-for="Id" class="control-label"></label>
@@ -26,9 +27,9 @@
                     <span asp-validation-for="FullName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="DateOfBirth" class="control-label"></label>
-                    <input asp-for="DateOfBirth" asp-format="{0:dd/mm/yyyy}" class="form-control datepicker" type="text" />
-                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                    <label asp-for="DateOfBirthAsString" class="control-label"></label>
+                    <input asp-for="DateOfBirthAsString" asp-format="{0:dd/MM/yyyy}" class="form-control datepicker" type="text"  />
+                    <span asp-validation-for="DateOfBirthAsString" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Gender" class="control-label"></label>
@@ -46,9 +47,9 @@
                     <span asp-validation-for="Salary" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="DateOfStart" class="control-label"></label>
-                    <input asp-for="DateOfStart" asp-format="{0:dd/mm/yyyy}" class="form-control datepicker" type="text" />
-                    <span asp-validation-for="DateOfStart" class="text-danger"></span>
+                    <label asp-for="DateOfStartAsString" class="control-label"></label>
+                    <input asp-for="DateOfStartAsString" asp-format="{0:dd/MM/yyyy}" class="form-control datepicker" type="text" />
+                    <span asp-validation-for="DateOfStartAsString" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Bio" class="control-label"></label>
@@ -63,57 +64,65 @@
                 <div class="form-group">
                     <input type="button" value="Update" class="btn btn-primary" id="btnSubmit" />
                 </div>
-                <div id="Results"></div>
+                <div id="Results" style=" color:red"></div>
             </div>
         </form>
     </div>
 </div>
-   @{
-    await Html.RenderPartialAsync(@Constants.PartialNames.ValidationScriptsPartial);
-}
+   
 
 <script>
        $(document).ready(function () {
-
-           console.log('_edit ready called');
-          
-           
+           //console.log('_edit ready called');
+            $(".datepicker").datepicker({
+                dateFormat: 'dd-mm-yy',
+                format: 'dd-MM-yyyy'
+            }
+          );
      
            
            $("#btnSubmit").click(function () {
-               var myformdata = $("#EditForm").serialize();
-               console.log(myformdata);
+               
+                    //debugger;
+                    var form = $('#EditForm');
+                    $.validator.unobtrusive.parse(form);
+                    form.validate();
+                    if (!form.valid()) {
+                        //alert('not valid!');
+                        return false;
+                    }
 
+               var myformdata = form.serialize();
+               console.log(myformdata);
+               var token =  $('input[name="__RequestVerificationToken"]').val();
+               //var headers = {};
+                //headers["__RequestVerificationToken"] = token;
+
+               console.log('token',token);
                 //$.ajax({
                 $.ajax({
                     type: "POST",
+                    //headers: headers,
                     url: "/Employee/ConfirmEdit?"+myformdata,
                     //url: "/Employee/ConfirmEdit",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     cache: false,
-                    //data: {emp = myformdata},
+                    data: { __RequestVerificationToken: token},
+                    //data : JSON.stringify(data),
                     success: function (response) {
-                        debugger;
+                        //debugger;
                         if(response.errors != '')
                             $('#Results').html(response.errors);
                          else
                             {
-                                alert('must close');
-                                debugger;
-                                $(this).dialog('close');
+                                //alert('must close');
+                                //debugger;
+                                $('#dialog_edit').dialog('close');
                             }
-                            
-                        //alert('success');
-                        //alert(response);
-
                     }
                 });//end of ajx call
 
             });//end of submitt button call
-         
-       
     });
 </script>
-
-

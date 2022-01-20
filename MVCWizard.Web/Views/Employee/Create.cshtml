@@ -57,7 +57,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label asp-for="DateOfBirth" class="control-label"></label>
-                            <input asp-for="DateOfBirth" asp-format="{0:dd/mm/yyyy}"  class="form-control" />
+                            <input asp-for="DateOfBirth" asp-format="{0:dd-MM-yyyy}"  class="form-control" />
                             <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label asp-for="DateOfStart" class="control-label"></label>
-                            <input asp-for="DateOfStart" asp-format="{0:dd/mm/yyyy}" class="form-control" />
+                            <input asp-for="DateOfStart" asp-format="{0:dd-MM-yyyy}" class="form-control" />
                             <span asp-validation-for="DateOfStart" class="text-danger"></span>
                         </div>
                     </div>
@@ -149,17 +149,6 @@
      $(document).ready(function () {
 
          
-         //$(".datepicker").datepicker(
-         //    {
-         //        dateFormat: 'dd-mm-yyyy'
-         //    }
-         //);
-
-
-        //$(".submit").click(function () {
-        //    return false;
-        //})
-
        //debugger;
        var stepper1Node = document.querySelector('#stepper1');
        var stepper1 = new Stepper(document.querySelector('#stepper1'));

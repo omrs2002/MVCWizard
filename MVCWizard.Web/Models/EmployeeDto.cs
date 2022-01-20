@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace MVCWizard.Web.Models
@@ -15,7 +16,10 @@ namespace MVCWizard.Web.Models
 
 
         [Required(ErrorMessage = "Date Of Birth required")]
-        [BindProperty, DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/mm/yyyy}")]
+        [BindProperty]
+        //"{0:yyyy-MM-dd}"
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
+
         [DataType(DataType.Date)]
         public DateTime DateOfBirth { get; set; }
 
@@ -32,7 +36,8 @@ namespace MVCWizard.Web.Models
 
         [Required(ErrorMessage = "Date Of Start required")]
         [DataType(DataType.Date)]
-        [BindProperty, DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/mm/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
+        
         public DateTime DateOfStart { get; set; }
 
 
@@ -40,6 +45,38 @@ namespace MVCWizard.Web.Models
         public string? Bio { get; set; }
 
         [Required]
-        public int CompletionStatus { get; set; }
+        [Range(1,2)]
+        public int CompletionStatus { get; set; } = 1;
+
+
+        [Required(ErrorMessage = "Date Of Birth required")]
+        [DisplayName("Date Of Birth")]
+        public string DateOfBirthAsString
+        {
+            get
+            {
+                return DateOfBirth.ToString("dd-MM-yyyy");
+            }
+            set
+            {
+                DateOfBirth = DateTime.Parse(value);
+            }
+        }
+
+        [Required(ErrorMessage = "Date Of Start required")]
+        [DisplayName("Date Of Start")]
+        public string DateOfStartAsString
+        {
+            get
+            {
+                return DateOfStart.ToString("dd-MM-yyyy");
+            }
+            set
+            {
+                DateOfStart = DateTime.Parse(value);
+            }
+        }
+
+
     }
 }

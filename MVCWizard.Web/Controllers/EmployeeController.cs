@@ -36,6 +36,7 @@ namespace MVCWizard.Web.Controllers
         [DisableRequestSizeLimit]
         public async Task<IActionResult> Create([Bind("DateOfBirth", "Dept", "FullName", "Bio", "Salary", "Gender", "DateOfStart")] EmployeeDto emp)
         {
+            emp.CompletionStatus = 1;
             if (!ModelState.IsValid)
             {
                 return BadRequest();
@@ -79,25 +80,18 @@ namespace MVCWizard.Web.Controllers
         [HttpPost]
         //[ValidateAntiForgeryToken]
         //[DisableRequestSizeLimit]
-        public async Task<ActionResult> ConfirmEdit([Bind("Id", "DateOfBirth", "Dept", "FullName", "Bio", "Salary", "Gender", "DateOfStart")] EmployeeDto emp)
+        public async Task<ActionResult> 
+            ConfirmEdit([Bind("Id", "DateOfBirthAsString", "Dept", "FullName", "Bio", "Salary", "Gender", "DateOfStartAsString", "CompletionStatus")] EmployeeDto emp)
         {
             if (!ModelState.IsValid)
             {
-                string errors = "";
-                foreach (var modelState in ViewData.ModelState.Values)
-                {
-                    foreach (ModelError error in modelState.Errors)
-                    {
-                        errors = errors + "," + error.ErrorMessage;
-                    }
-                }
-                return new JsonResult(new {Errors = errors });
+                return new JsonResult(new {Errors = "Not Valid!" });
             }
             else
             {
                 var Employee = await _employeeService.UpdateAsync(emp);
                 //return PartialView(Constants.PartialNames.EmployeeDetails, emp);
-                return RedirectToAction("Index");
+                return new JsonResult(new { Errors = "" });
             }
         }
 

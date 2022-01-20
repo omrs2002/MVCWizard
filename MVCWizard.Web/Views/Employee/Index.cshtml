@@ -1,4 +1,5 @@
-﻿@model IEnumerable<MVCWizard.Web.Models.EmployeeDto>
+﻿@using MVCWizard.Web.Application
+@model IEnumerable<MVCWizard.Web.Models.EmployeeDto>
 
 @{
     ViewData["Title"] = "Employees List";
@@ -93,9 +94,10 @@
   </div>
 </div>
 
-
-
 @section Scripts {
+
+     @{ await Html.RenderPartialAsync(@Constants.PartialNames.ValidationScriptsPartial); }
+
 <script>
         $(document).ready(function () {
 
@@ -131,6 +133,7 @@
                         load_employees();
                     },
                     title: "Edit Employee Details"
+
                 });
 
 
@@ -180,13 +183,13 @@
                 (   get_emp_edit_url,
                     function()
                     {
+                        //$.validator.unobtrusive.parse(dialog_edit);
                         dialog_edit.dialog('open');
                         //$("#myModal").modal('show');  
 
                     }
                );
             });
-
 
 
         //Add Code for show employee  Details in dialog:

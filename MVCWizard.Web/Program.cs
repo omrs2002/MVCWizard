@@ -4,6 +4,7 @@ using MVCWizard.Web.Application.Handlers;
 using MVCWizard.Web.Application.Services;
 using MVCWizard.Web.Configuration;
 using Polly;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,20 @@ builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 builder.Services.AddTransient<ValidateHeaderHandler>();
 
 builder.Services.Configure<EmpApi>(builder.Configuration.GetSection("EmpApi"));
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var GBculture = CultureInfo.CreateSpecificCulture("en-GB");
+    var dateformat = new DateTimeFormatInfo
+    {
+        ShortDatePattern = "dd-MM-yyyy",
+        LongDatePattern = "dd-MM-yyyy hh:mm:ss tt"
+    };
+    GBculture.DateTimeFormat = dateformat;
+    options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture(GBculture);
+    options.SupportedCultures = new List<CultureInfo> { GBculture };
+    options.RequestCultureProviders.Clear();
+});
 
 
 builder.Services.AddHttpClient<IEmployeeService,EmployeeService>("EmpApi", client =>
