@@ -79,10 +79,11 @@ namespace MVCWizard.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[DisableRequestSizeLimit]
+        [DisableRequestSizeLimit]
         public async Task<ActionResult> 
-            ConfirmEdit([Bind("Id", "DateOfBirthAsString", "Dept", "FullName", "Bio", "Salary", "Gender", "DateOfStartAsString", "CompletionStatus")] EmployeeDto emp)
+        ConfirmEdit([Bind("Id", "DateOfBirthAsString", "Dept", "FullName", "Bio", "Salary", "Gender", "DateOfStartAsString", "CompletionStatus")] EmployeeDto emp)
         {
+            
             if (!ModelState.IsValid)
             {
                 return new JsonResult(new {Errors = "Not Valid!" });

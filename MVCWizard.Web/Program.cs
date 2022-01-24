@@ -30,6 +30,14 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 });
 
 
+//builder.Services.AddAntiforgery(options =>
+//{
+//    // Set Cookie properties using CookieBuilder properties†.
+//    options.FormFieldName = "__RequestVerificationToken";
+//    options.HeaderName = "X-CSRF-TOKEN";
+//    options.SuppressXFrameOptionsHeader = false;
+//});
+
 builder.Services.AddHttpClient<IEmployeeService,EmployeeService>("EmpApi", client =>
 {
     client.BaseAddress = new Uri(builder.Configuration.GetSection("EmpApi:Url").Value);
@@ -42,6 +50,7 @@ builder.Services.AddHttpClient<IEmployeeService,EmployeeService>("EmpApi", clien
  .AddHttpMessageHandler<ValidateHeaderHandler>()
  .AddTransientHttpErrorPolicy(policyBuilder =>policyBuilder.WaitAndRetryAsync(3, retryNumber => TimeSpan.FromMilliseconds(5)))
  .AddTransientHttpErrorPolicy(policyBuilder =>policyBuilder.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
+
 
 var app = builder.Build();
 
