@@ -33,7 +33,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Gender" class="control-label"></label>
-                    <input asp-for="Gender" class="form-control" />
+                    <select asp-for="Gender" class="form-select" asp-items="@Model?.GenderList"></select>
                     <span asp-validation-for="Gender" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -57,11 +57,6 @@
                     <span asp-validation-for="Bio" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="CompletionStatus" class="control-label"></label>
-                    <input asp-for="CompletionStatus" class="form-control" />
-                    <span asp-validation-for="CompletionStatus" class="text-danger"></span>
-                </div>
-                <div class="form-group">
                     <input type="button" value="Update" class="btn btn-primary" id="btnSubmit" />
                 </div>
                 <div id="Results" style=" color:red"></div>
@@ -73,13 +68,11 @@
 
 <script>
        $(document).ready(function () {
-           //console.log('_edit ready called');
             $(".datepicker").datepicker({
                 dateFormat: 'dd-mm-yy',
                 format: 'dd-MM-yyyy'
             }
           );
-     
            
            $("#btnSubmit").click(function () {
                
@@ -88,7 +81,6 @@
                     $.validator.unobtrusive.parse(form);
                     form.validate();
                     if (!form.valid()) {
-                        //alert('not valid!');
                         return false;
                     }
 
@@ -101,7 +93,6 @@
                     type: "POST",
                     headers: req_headers,
                     url: "/Employee/ConfirmEdit?"+myformdata,
-                    //url: "/Employee/ConfirmEdit",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     cache: false,
@@ -111,7 +102,7 @@
                             $('#Results').html(response.errors);
                          else
                             {
-                                alert('must close');
+                                //alert('must close');
                                 //debugger;
                                 $('#dialog_edit').dialog('close');
                             }
