@@ -95,28 +95,23 @@
                var myformdata = form.serialize();
                console.log(myformdata);
                var token =  $('input[name="__RequestVerificationToken"]').val();
-               //var headers = {};
-                //headers["__RequestVerificationToken"] = token;
-
-               console.log('token',token);
-                //$.ajax({
+               var req_headers = {};
+               req_headers["RequestVerificationToken"] = token;
                 $.ajax({
                     type: "POST",
-                    //headers: headers,
+                    headers: req_headers,
                     url: "/Employee/ConfirmEdit?"+myformdata,
                     //url: "/Employee/ConfirmEdit",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     cache: false,
-                    data: { __RequestVerificationToken: token},
-                    //data : JSON.stringify(data),
                     success: function (response) {
                         //debugger;
                         if(response.errors != '')
                             $('#Results').html(response.errors);
                          else
                             {
-                                //alert('must close');
+                                alert('must close');
                                 //debugger;
                                 $('#dialog_edit').dialog('close');
                             }
