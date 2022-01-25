@@ -16,11 +16,7 @@
             >
              @Html.AntiForgeryToken()
             <div id="div_edit">
-                <div class="form-group">
-                    <label asp-for="Id" class="control-label"></label>
-                    <input asp-for="Id" class="form-control" readonly />
-                    <span asp-validation-for="Id" class="text-danger"></span>
-                </div>
+                    @Html.HiddenFor(x => x.Id)
                 <div class="form-group">
                     <label asp-for="FullName" class="control-label"></label>
                     <input asp-for="FullName" class="form-control" />
@@ -105,6 +101,7 @@
                                 //alert('must close');
                                 //debugger;
                                 $('#dialog_edit').dialog('close');
+                                location.reload();
                             }
                     }
                 });//end of ajx call
