@@ -86,7 +86,11 @@ namespace MVCWizard.Web.Controllers
             
             if (!ModelState.IsValid)
             {
-                return new JsonResult(new {Errors = "Not Valid!" });
+                string messages = string.Join("; ", ModelState.Values
+                                        .SelectMany(x => x.Errors)
+                                        .Select(x => x.ErrorMessage));
+
+                return new JsonResult(new {Errors = messages });
             }
             else
             {
