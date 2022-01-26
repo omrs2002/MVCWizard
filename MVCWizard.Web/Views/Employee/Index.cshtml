@@ -53,202 +53,171 @@
         </div>
         Employee Details:
         <br />
-        
-        <br />
-        <div id="dialog" style="display: none"   class="ui-widget">
-        </div>
-        
-        
-        
-        <br />
         <div id="div_emp_details"  class="ui-widget" >
         </div>
-
-        Modal:
-        <br />
-        <button type="button" id="btn_modal" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Open Small Modal</button>
         
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-  Launch demo modal
-</button>
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
 
-        
-<!-- Modal myModal-->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div id="dialog_edit"  class="ui-widget"
-         role="dialog"></div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Modal Heading</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div id="div_modal_body">
+
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+
+        </div>
     </div>
-  </div>
 </div>
+
 
 @section Scripts {
 
      @{ await Html.RenderPartialAsync(@Constants.PartialNames.ValidationScriptsPartial); }
 
 <script>
-        $(document).ready(function () {
+     $(document).ready(function ()
+{
 
-            //modal test:
-            //$("#btn_modal").click(function () {  
-            //    $("#myModal").modal('show');  
-            //});  
+    
+    //////////////////////////////////////////
+    //Get Emp partial using data url:
+    load_employees();
 
+    //Get Emp Div By Ajax:
+    $.ajax(
+    {
+        type: "GET",
+        url: "/Employee/GetEmployeesAsPartialView",
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        cache: false,
+        data: {},
+        success: function (response)
+        {
+            $("#emp_div").html(response);
 
-        //Prepare Show details in Dialog:
-        $("#dialog").dialog({
-                    autoOpen: false,
-                    modal: true,
-                    title: "View Employee Details",
-                     show: {
-                            effect: "blind",
-                            duration: 500
-                           },
-                    hide: {
-                            effect: "blind",
-                            duration: 500
-                         }
-                });
+            //add code for show employee Details:
+            add_events_to_button();
+        }
+    }
+    );
 
-        //Prepare edit in Dialog:
-        
-        
-        $("#dialog_edit").dialog({
-                    autoOpen: false,
-                    modal: true,
-                    close: function( event, ui ) 
-                    {
-                        load_employees();
-                    },
-                    title: "Edit Employee Details"
+    function add_events_to_button()
+    {
+        //code for show employee Details:
+        $("[data-id]").on
+        ("click",
+            function ()
+        {
 
-                });
+            var empid = $(this).attr('data-id');
+            var get_emp_det_url = $(this).attr('data-url');
+            console.log('get_emp_det_url', get_emp_det_url);
 
-
-        //////////////////////////////////////////
-        //Get Emp partial using data url:
-        load_employees();
-       
-
-
-        //Get Emp Div By Ajax:
-        $.ajax({
-            type: "GET",
-            url: "/Employee/GetEmployeesAsPartialView",
-            contentType: "application/json; charset=utf-8",
-            dataType: "html",
-            cache: false,
-            data: {},
-            success: function (response) {
-                $("#emp_div").html(response);
-
-                //add code for show employee Details:
-                add_events_to_button();
-            }
-        });
-
-        function add_events_to_button() {
-            //code for show employee Details:
-            $("[data-id]").on
-            ("click",
-                function () {
-
-                var empid = $(this).attr('data-id');
-                var get_emp_det_url  = $(this).attr('data-url');
-                console.log('get_emp_det_url',get_emp_det_url);
-
-                $("#div_emp_details").load(get_emp_det_url );
-            });
-            ////////////////////////////////////
-            //code for show employee Edit:
-             $("[data-edit]").on
-            ("click",
-                function () {
-                var get_emp_edit_url  = $(this).attr('data-url');
-                // $("#dialog_edit")
-                 var dialog_edit = $('#dialog_edit');
-                dialog_edit.load
-                (   get_emp_edit_url,
-                    function()
-                    {
-                        //$.validator.unobtrusive.parse(dialog_edit);
-                        dialog_edit.dialog('open');
-                        //$("#myModal").modal('show');  
-
-                    }
-               );
-            });
-
+            $("#div_emp_details").load(get_emp_det_url);
+        }
+        );
+        ////////////////////////////////////
+        //code for show employee Edit:
+        $("[data-edit]").on
+        ("click",
+            function ()
+        {
+            //debugger;
+            var get_emp_edit_url = $(this).attr('data-url');
+            show_modal(get_emp_edit_url, 'Edit Employee');
+        }
+        );
 
         //Add Code for show employee  Details in dialog:
-       $("[data-empid]").on
-            ("click",
-                function () {
-                var empid = $(this).attr('data-empid');
-                //debugger;
-                console.log('empid',empid);
-                var data_url_det  = $(this).attr('data-url');
-                console.log('data_url_det',data_url_det);
-                var dialogitem = $('#dialog');
-                dialogitem.load
-                (   data_url_det,
-                    function()
-                    {
-                        dialogitem.dialog('open');
-                    }
-               );
-            });
+        $("[data-empid]").on
+        ("click",
+            function ()
+        {
+            var empid = $(this).attr('data-empid');
+            //debugger;
+            console.log('empid', empid);
+            var data_url_det = $(this).attr('data-url');
+            show_modal(data_url_det, 'Employee Details');
 
-            //Show delete in Dialog:
-            $("[data-empid-del]").on
-            ("click",
-                function () {
+        }
+        );
 
-                var empid = $(this).attr('data-empid-del');
-                var del_url = $(this).attr('data-url');
-                console.log('del_url',del_url);
-                var dialogitem = $('#dialog');
-                
-                dialogitem.load
-                (   del_url,
-                    function()
-                    {
-                        dialogitem.dialog('open');
-                    }
-               );
-            });
+        //Show delete in Dialog:
+        $("[data-empid-del]").on
+        ("click",
+            function ()
+        {
+            var del_url = $(this).attr('data-url');
+            show_modal(del_url,'Are you sure?');
+        }
+        );
+
+    } //end of 'add_events_to_button'
 
 
-        }//end of 'add_events_to_button'
+    function load_employees()
+    {
+        var item = $('#CompletedSections');
+        var url = item.data("url");
 
+        item.load(url, function ()
+        {
+            add_events_to_button();
+        }
+        );
+    }
 
-        
-       function load_employees()
-       {
-            var item = $('#CompletedSections');
-            var url = item.data("url");
-            
-            item.load(url,function() 
+    function show_modal(data_url, title)
+    {
+        $("#div_modal_body").load(
+            data_url,
+            function ()
+        {
+            //popup with default options
+            //var myModal = new bootstrap.Modal('#myModal');
+
+            //popup without backdrop
+            //var myModal = new bootstrap.Modal('#myModal',{backdrop: false});
+
+            //popup with disabled ckick outside
+            var myModal = new bootstrap.Modal('#myModal',
             {
-                add_events_to_button();
-            });
-            
-       }
+                backdrop: 'static',
+                keyboard: false
+            }
+                )
 
+                $(".modal-title").html(title);
+            myModal.show();
+        }
+        );
+    }
 
-    });
+    $("#myModal").on('hide.bs.modal', function ()
+    {
+        //alert('The modal is about to be hidden.');
+        $('.modal-backdrop').remove();
+    }
+    );
+
+}
+); //end of JQuery load
+
 
 </script>
 

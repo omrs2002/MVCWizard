@@ -3,24 +3,17 @@
 
 <div class="row">
     <div class="col-md-12">
-        <form 
-            id="EditForm" 
-            asp-action="ConfirmEdit" 
-            asp-controller="Employee" 
-            data-ajax="true"
-            data-ajax-method="Post"
-           
-            data-ajax-mode="replace" 
-             data-ajax-update="#div_edit" 
-              enctype="multipart/form-data"
-            >
-             @Html.AntiForgeryToken()
+        <form id="EditForm"
+              asp-action="ConfirmEdit"
+              asp-controller="Employee"
+              data-ajax="true"
+              data-ajax-method="Post"
+              data-ajax-mode="replace"
+              data-ajax-update="#div_edit"
+              enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
             <div id="div_edit">
-                <div class="form-group">
-                    <label asp-for="Id" class="control-label"></label>
-                    <input asp-for="Id" class="form-control" readonly />
-                    <span asp-validation-for="Id" class="text-danger"></span>
-                </div>
+                @Html.HiddenFor(x => x.Id)
                 <div class="form-group">
                     <label asp-for="FullName" class="control-label"></label>
                     <input asp-for="FullName" class="form-control" />
@@ -28,12 +21,12 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="DateOfBirthAsString" class="control-label"></label>
-                    <input asp-for="DateOfBirthAsString" asp-format="{0:dd/MM/yyyy}" class="form-control datepicker" type="text"  />
+                    <input asp-for="DateOfBirthAsString" asp-format="{0:dd/MM/yyyy}" class="form-control datepicker" type="text" />
                     <span asp-validation-for="DateOfBirthAsString" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Gender" class="control-label"></label>
-                    <input asp-for="Gender" class="form-control" />
+                    <select asp-for="Gender" class="form-select" asp-items="@Model?.GenderList"></select>
                     <span asp-validation-for="Gender" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -56,39 +49,37 @@
                     <input asp-for="Bio" class="form-control" />
                     <span asp-validation-for="Bio" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="CompletionStatus" class="control-label"></label>
-                    <input asp-for="CompletionStatus" class="form-control" />
-                    <span asp-validation-for="CompletionStatus" class="text-danger"></span>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="button" value="Update" class="btn btn-primary" id="btnSubmit" />
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input type="button" value="Update" class="btn btn-primary" id="btnSubmit" />
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="Results" style=" color:red"></div>
+                    </div>
                 </div>
-                <div id="Results" style=" color:red"></div>
             </div>
         </form>
     </div>
 </div>
-   
+
 
 <script>
        $(document).ready(function () {
-           //console.log('_edit ready called');
             $(".datepicker").datepicker({
                 dateFormat: 'dd-mm-yy',
                 format: 'dd-MM-yyyy'
             }
           );
-     
-           
+
            $("#btnSubmit").click(function () {
-               
+
                     //debugger;
                     var form = $('#EditForm');
                     $.validator.unobtrusive.parse(form);
                     form.validate();
                     if (!form.valid()) {
-                        //alert('not valid!');
                         return false;
                     }
 
@@ -101,7 +92,6 @@
                     type: "POST",
                     headers: req_headers,
                     url: "/Employee/ConfirmEdit?"+myformdata,
-                    //url: "/Employee/ConfirmEdit",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     cache: false,
@@ -111,9 +101,10 @@
                             $('#Results').html(response.errors);
                          else
                             {
-                                alert('must close');
+                                //alert('must close');
                                 //debugger;
                                 $('#dialog_edit').dialog('close');
+                                location.reload();
                             }
                     }
                 });//end of ajx call

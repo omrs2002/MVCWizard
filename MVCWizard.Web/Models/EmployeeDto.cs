@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -37,7 +38,7 @@ namespace MVCWizard.Web.Models
         [Required(ErrorMessage = "Date Of Start required")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
-        
+
         public DateTime DateOfStart { get; set; }
 
 
@@ -45,7 +46,7 @@ namespace MVCWizard.Web.Models
         public string? Bio { get; set; }
 
         [Required]
-        [Range(1,2)]
+        [Range(1, 2)]
         public int CompletionStatus { get; set; } = 1;
 
 
@@ -77,6 +78,19 @@ namespace MVCWizard.Web.Models
             }
         }
 
+        public SelectList GenderList
+        {
+            get
+            {
+               IList<object> gender_list = new List<object>()
+               {
+                    new  { ID="1",Name="Male"}, 
+                    new { ID = "2", Name = "Female" } 
+               };
+                return new SelectList(gender_list, "ID", "Name");
+
+            }
+        }
 
     }
 }
