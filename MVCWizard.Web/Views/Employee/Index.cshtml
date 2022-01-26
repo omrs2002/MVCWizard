@@ -58,19 +58,9 @@
         <div id="dialog" style="display: none"   class="ui-widget">
         </div>
         
-          <div id="dialog_edit" style="display: none"   class="ui-widget">
-        </div>
-        
         <br />
         <div id="div_emp_details"  class="ui-widget" >
         </div>
-
-        Modal:
-        <br />
-        @*data-bs-toggle="modal" data-bs-target="#myModal"*@
-        <button type="button" class="btn btn-primary" id="btn_modal" >
-        Open modal
-        </button>
         
 <!-- The Modal -->
 <div class="modal" id="myModal">
@@ -109,46 +99,46 @@
 {
 
     //btn_modal
-    $("#btn_modal").on
-    ("click",
-        function ()
-    {
-        var data_url = '@Url.Action("GetEmployeeDetails", "Employee", new {emp_id=1})';
-        show_modal(data_url, 'Employee Details');
-    }
-    );
+    //$("#btn_modal").on
+    //("click",
+    //    function ()
+    //{
+    //    var data_url = '@Url.Action("GetEmployeeDetails", "Employee", new {emp_id=1})';
+    //    show_modal(data_url, 'Employee Details');
+    //}
+    //);
 
-    //Prepare Show details in Dialog:
-    $("#dialog").dialog(
-    {
-        autoOpen: false,
-        modal: true,
-        title: "View Employee Details",
-        show:
-        {
-            effect: "blind",
-            duration: 500
-        },
-        hide:
-        {
-            effect: "blind",
-            duration: 500
-        }
-    }
-    );
+    ////Prepare Show details in Dialog:
+    //$("#dialog").dialog(
+    //{
+    //    autoOpen: false,
+    //    modal: true,
+    //    title: "View Employee Details",
+    //    show:
+    //    {
+    //        effect: "blind",
+    //        duration: 500
+    //    },
+    //    hide:
+    //    {
+    //        effect: "blind",
+    //        duration: 500
+    //    }
+    //}
+    //);
 
-    //Prepare edit in Dialog:
-    $("#dialog_edit").dialog(
-    {
-        autoOpen: false,
-        modal: true,
-        close: function (event, ui)
-        {
-            load_employees();
-        },
-        title: "Edit Employee Details"
-    }
-    );
+    ////Prepare edit in Dialog:
+    //$("#dialog_edit").dialog(
+    //{
+    //    autoOpen: false,
+    //    modal: true,
+    //    close: function (event, ui)
+    //    {
+    //        load_employees();
+    //    },
+    //    title: "Edit Employee Details"
+    //}
+    //);
 
     //////////////////////////////////////////
     //Get Emp partial using data url:
