@@ -53,12 +53,6 @@
         </div>
         Employee Details:
         <br />
-        
-        <br />
-        <div id="dialog" style="display: none"   class="ui-widget">
-        </div>
-        
-        <br />
         <div id="div_emp_details"  class="ui-widget" >
         </div>
         
@@ -98,48 +92,7 @@
      $(document).ready(function ()
 {
 
-    //btn_modal
-    //$("#btn_modal").on
-    //("click",
-    //    function ()
-    //{
-    //    var data_url = '@Url.Action("GetEmployeeDetails", "Employee", new {emp_id=1})';
-    //    show_modal(data_url, 'Employee Details');
-    //}
-    //);
-
-    ////Prepare Show details in Dialog:
-    //$("#dialog").dialog(
-    //{
-    //    autoOpen: false,
-    //    modal: true,
-    //    title: "View Employee Details",
-    //    show:
-    //    {
-    //        effect: "blind",
-    //        duration: 500
-    //    },
-    //    hide:
-    //    {
-    //        effect: "blind",
-    //        duration: 500
-    //    }
-    //}
-    //);
-
-    ////Prepare edit in Dialog:
-    //$("#dialog_edit").dialog(
-    //{
-    //    autoOpen: false,
-    //    modal: true,
-    //    close: function (event, ui)
-    //    {
-    //        load_employees();
-    //    },
-    //    title: "Edit Employee Details"
-    //}
-    //);
-
+    
     //////////////////////////////////////////
     //Get Emp partial using data url:
     load_employees();
@@ -209,19 +162,8 @@
         ("click",
             function ()
         {
-
-            var empid = $(this).attr('data-empid-del');
             var del_url = $(this).attr('data-url');
-            console.log('del_url', del_url);
-            var dialogitem = $('#dialog');
-
-            dialogitem.load
-            (del_url,
-                function ()
-            {
-                dialogitem.dialog('open');
-            }
-            );
+            show_modal(del_url,'Are you sure?');
         }
         );
 
