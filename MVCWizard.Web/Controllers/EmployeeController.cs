@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using MVCWizard.Web.Application;
 using MVCWizard.Web.Application.Contracts;
 using MVCWizard.Web.Models;
+using MVCWizard.Web.Extensions.Modal;
+
 
 namespace MVCWizard.Web.Controllers
 {
@@ -39,7 +41,9 @@ namespace MVCWizard.Web.Controllers
             emp.CompletionStatus = 1;
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                string messages = ModelState.GetModalErrors();
+                _logger.LogInformation(messages);
+                return new JsonResult(new { Errors = messages });
             }
             int empid = await _employeeService.CreateAsync(emp);
             return RedirectToAction("Index");
@@ -86,9 +90,7 @@ namespace MVCWizard.Web.Controllers
             
             if (!ModelState.IsValid)
             {
-                string messages = string.Join("; ", ModelState.Values
-                                        .SelectMany(x => x.Errors)
-                                        .Select(x => x.ErrorMessage));
+                string messages = ModelState.GetModalErrors();
 
                 return new JsonResult(new {Errors = messages });
             }
@@ -99,7 +101,6 @@ namespace MVCWizard.Web.Controllers
                 return new JsonResult(new { Errors = "" });
             }
         }
-
 
 
         // GET: EmployeeController/Delete/5

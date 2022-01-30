@@ -14,6 +14,12 @@ namespace FluentValidationConsole.Models
         {
             RuleFor(emp => emp.FullName).NotNull().NotEqual("") ;
             RuleFor(x => x.Salary).InclusiveBetween(1000,10000);
+            RuleFor(emp => emp.Dept).NotEmpty();
+            
+            ///RuleFor(customer => customer.CustomerDiscount).GreaterThan(0).When(customer => customer.IsPreferredCustomer);
+            RuleFor(emp => emp.Salary).GreaterThanOrEqualTo(3500).When(emp=> emp.Gender == 2).WithMessage("Female Salary must be > 3500");
+
+
         }
     }
 }
