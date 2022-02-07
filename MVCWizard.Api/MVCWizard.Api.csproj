@@ -25,4 +25,8 @@
     <ProjectReference Include="..\MVCWizard.Data\MVCWizard.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+
 </Project>

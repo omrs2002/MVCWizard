@@ -1,8 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MVCWizard.Api.Application.Contracts;
 using MVCWizard.Api.Data;
-using System.Configuration;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,20 +13,27 @@ builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
 builder.Services.AddDbContext<EmployeeDBContext>();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization(); 
+app.UseAuthorization();
 app.UseCors();
 
 
