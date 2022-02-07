@@ -1,16 +1,30 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using FluentValidationConsole.Models;
 using Microsoft.Net.Http.Headers;
 using MVCWizard.Web.Application.Contracts;
 using MVCWizard.Web.Application.Handlers;
 using MVCWizard.Web.Application.Services;
 using MVCWizard.Web.Configuration;
+using MVCWizard.Web.Models;
 using Polly;
 using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+builder.Services
+    .AddControllersWithViews()
+    .AddRazorRuntimeCompilation()
+    .AddFluentValidation()
+;
+
+
 builder.Services.AddTransient<IEmployeeService, EmployeeService>();
+
+builder.Services.AddTransient<IValidator<EmployeeDto>, EmployeeValidator>();
+
+
 builder.Services.AddTransient<ValidateHeaderHandler>();
 
 builder.Services.Configure<EmpApi>(builder.Configuration.GetSection("EmpApi"));
@@ -48,8 +62,9 @@ builder.Services.AddHttpClient<IEmployeeService,EmployeeService>("EmpApi", clien
 )
  .SetHandlerLifetime(TimeSpan.FromMinutes(3))
  .AddHttpMessageHandler<ValidateHeaderHandler>()
- .AddTransientHttpErrorPolicy(policyBuilder =>policyBuilder.WaitAndRetryAsync(3, retryNumber => TimeSpan.FromMilliseconds(5)))
- .AddTransientHttpErrorPolicy(policyBuilder =>policyBuilder.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
+ //.AddTransientHttpErrorPolicy(policyBuilder =>policyBuilder.WaitAndRetryAsync(3, retryNumber => TimeSpan.FromMilliseconds(5)))
+ //.AddTransientHttpErrorPolicy(policyBuilder =>policyBuilder.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)))
+ ;
 
 
 var app = builder.Build();
