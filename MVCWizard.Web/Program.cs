@@ -7,7 +7,7 @@ using MVCWizard.Web.Application.Handlers;
 using MVCWizard.Web.Application.Services;
 using MVCWizard.Web.Configuration;
 using MVCWizard.Web.Models;
-using Polly;
+//using Polly;
 using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -62,8 +62,9 @@ builder.Services.AddHttpClient<IEmployeeService,EmployeeService>("EmpApi", clien
 )
  .SetHandlerLifetime(TimeSpan.FromMinutes(3))
  .AddHttpMessageHandler<ValidateHeaderHandler>()
- .AddTransientHttpErrorPolicy(policyBuilder =>policyBuilder.WaitAndRetryAsync(3, retryNumber => TimeSpan.FromMilliseconds(5)))
- .AddTransientHttpErrorPolicy(policyBuilder =>policyBuilder.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
+ //.AddTransientHttpErrorPolicy(policyBuilder =>policyBuilder.WaitAndRetryAsync(3, retryNumber => TimeSpan.FromMilliseconds(5)))
+ //.AddTransientHttpErrorPolicy(policyBuilder =>policyBuilder.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)))
+ ;
 
 
 var app = builder.Build();
