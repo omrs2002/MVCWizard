@@ -43,6 +43,7 @@ namespace MVCWizard.Web.Models
 
 
         [Required(ErrorMessage = "Bio required")]
+        [DataType(DataType.MultilineText)]
         public string? Bio { get; set; }
 
         [Required]
