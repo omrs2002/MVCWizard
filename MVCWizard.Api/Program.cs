@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using MVCWizard.Api.Application.Contracts;
 using MVCWizard.Api.Data;
 using MVCWizard.Api.Extensions;
@@ -46,24 +44,24 @@ builder.Logging.AddConsole();
 
 builder.Services.AddDbContext<EmployeeDBContext>();
 
+
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = "10.1.1.132:6300";
+});
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
-//    app.UseSwagger();
-//    app.UseSwaggerUI();
-//}
 
 app.UseSwagger();
-app.UseSwaggerUI();
 
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-app.UseCors(MyAllowSpecificOrigins);
 
+app.UseCors(MyAllowSpecificOrigins);
 
 app.MapControllers();
 
